@@ -97,8 +97,9 @@ in it and allowed once empty; the JSON branches; headless Chromium at 1280×800 
 console errors, a real drag from the backlog into a box posting the move and re-rendering both regions (SortableJS's mouse
 fallback forced in the probe only — headless Chromium runs no native HTML5 drag). Fixed on the way: the sprint page
 requires `app/views/shared/chart.php` itself; the facts-and-burndown pair is a flex row (a `.row` straight under
-`.main-content` overflowed by 8px). Known: `sprint_burndown()` (db/010) counts a re-estimate of an issue committed at start
-as the full new value, not the delta — a schema fix owed (db/014). SMOKE data left: SMK1-16..18, closed sprints 6, 9, 11.
+`.main-content` overflowed by 8px). Fixed in db/014: `sprint_burndown()` (db/010) counted a re-estimate of an issue committed at start
+as the full new value — `sprint_start()` now records one `committed` event per issue, so the re-estimate finds its previous
+value; the scope-changes view leaves `committed` rows out (proven rolled back: 3 + 5 committed, 5 → 8, scope 11 not 16). SMOKE data left: SMK1-16..18, closed sprints 6, 9, 11.
 
 ## Open Questions
 - (none)

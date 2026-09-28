@@ -15,6 +15,7 @@ $itemId = request_integer('item') ?? request_integer('checklist_item') ?? reques
 $item = $itemId === null ? null : find_checklist_item($pdo, $itemId);
 if ($item === null || find_issue($pdo, (int) $item['issue_id']) === null) { refuse(404, 'Checklist item not found.'); }
 require_can_work((int) $item['project_id']);
+require_project_active($pdo, (int) $item['project_id']);
 $pdo->beginTransaction();
 try {
     delete_checklist_item($pdo, $itemId, $me);

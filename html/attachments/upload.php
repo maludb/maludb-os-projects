@@ -14,7 +14,8 @@ $me = (int) current_member_id();
 require_human();
 $issue = issue_from_request($pdo);
 require_can_work((int) $issue['project_id']);
-$max = (int) (env('ATTACHMENT_MAX_BYTES') ?: projects_settings($pdo)['attachment_max_bytes']);
+require_project_active($pdo, (int) $issue['project_id']);
+$max = (int) (projects_settings($pdo)['attachment_max_bytes'] ?: env('ATTACHMENT_MAX_BYTES') ?: 10485760);   // the settings row rules; the env key is the fallback (slice 6)
 $file = $_FILES['file'] ?? null;
 if ($file === null || ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) { refuse(422, 'Choose a file to attach.'); }
 if (($file['error'] ?? 0) === UPLOAD_ERR_INI_SIZE || ($file['error'] ?? 0) === UPLOAD_ERR_FORM_SIZE || (int) ($file['size'] ?? 0) > $max) { refuse(422, 'The file is larger than ' . round($max / 1048576, 1) . ' MB.'); }

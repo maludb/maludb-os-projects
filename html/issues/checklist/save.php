@@ -13,6 +13,7 @@ $me = (int) current_member_id();
 /** Action `checklist_add` (log checklist_item.add). Gate: can_work. */
 $issue = issue_from_request($pdo);
 require_can_work((int) $issue['project_id']);
+require_project_active($pdo, (int) $issue['project_id']);
 $text = request_string('text') ?: request_string('item_text');
 if ($text === '' || mb_strlen($text) > 500) { refuse(422, 'A checklist item is 1 to 500 characters.'); }
 $pdo->beginTransaction();

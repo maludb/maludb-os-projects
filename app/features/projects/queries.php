@@ -10,6 +10,7 @@ const PROJECT_VISIBILITIES = ['open', 'private'];
 const PROJECT_BOARD_MODES = ['scrum', 'kanban'];
 const PROJECT_ROLES = ['lead', 'product_owner', 'scrum_master', 'member', 'viewer'];
 const PROJECT_TABS = ['overview', 'backlog', 'board', 'sprints', 'epics', 'issues', 'reports', 'settings'];
+const PROJECT_SETTINGS_TABS = ['general', 'workflow', 'board', 'team', 'labels'];
 
 /**
  * @param array $filters q, department (id), status (active default | archived | all), mine (bool)
@@ -174,4 +175,46 @@ function projects_settings(PDO $pdo): array
     }
     $row['point_scale'] = array_map('intval', array_filter(explode(',', trim((string) $row['point_scale'], '{}')), 'strlen'));
     return $row;
+}
+
+// ---- slice 6: the archive rule and archiving itself -----------------------------------------------------
+
+/**
+ * The archive rule (settings.md): an archived project is read-only everywhere. Every write handler calls this
+ * after its rights gate; the answer is a 409 in the handler's own words. Reads the base table (the rw role).
+ */
+function require_project_active(PDO $pdo, int $projectId): void
+{
+    $st = $pdo->prepare('SELECT status FROM projects WHERE id = :id');
+    $st->execute(['id' => $projectId]);
+    if ((string) $st->fetchColumn() !== 'active') {
+        refuse(409, 'This project is archived — read-only until it is unarchived.');
+    }
+}
+
+/** Archive or unarchive a project (the CHECK ties status to archived_at). Returns the base row after. */
+function archive_project(PDO $pdo, int $id, bool $archive, int $actorId): array
+{
+    $st = $archive
+        ? $pdo->prepare("UPDATE projects SET status = 'archived', archived_at = now(), archived_by = :by WHERE id = :id RETURNING *")
+        : $pdo->prepare("UPDATE projects SET status = 'active', archived_at = NULL, archived_by = NULL WHERE id = :id RETURNING *");
+    $st->execute($archive ? ['id' => $id, 'by' => $actorId] : ['id' => $id]);
+    return $st->fetch();
+}
+
+/** A settings action is done: status emitted, the regions told, each caller answered its own way (HTMX 204, JSON, a browser sent back). */
+function project_settings_done(string $path, string $did, array $extra = [], string $event = ''): never
+{
+    emit_action_status(true, ['did' => $did] + ($event !== '' ? ['refresh' => $event] : []) + $extra);
+    if ($event !== '') {
+        hx_trigger($event);
+    }
+    if (wants_json()) {
+        respond_saved(['did' => $did, 'location' => $path] + $extra);
+    }
+    if (is_htmx_request()) {
+        http_response_code(204);
+        exit;
+    }
+    redirect($path);
 }

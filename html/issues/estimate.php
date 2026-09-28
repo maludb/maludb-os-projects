@@ -15,6 +15,7 @@ $issue = issue_from_request($pdo);
 $projectId = (int) $issue['project_id'];
 require_can_see_project($projectId);
 if ((int) ($issue['assignee_member_id'] ?? 0) !== $me) { require_right_in('backlog.rank', $projectId); }
+require_project_active($pdo, $projectId);
 $pRaw = array_key_exists('story_points', $_POST) ? trim((string) $_POST['story_points']) : (array_key_exists('points', $_POST) ? trim((string) $_POST['points']) : null);
 $hRaw = array_key_exists('estimate_hours', $_POST) ? trim((string) $_POST['estimate_hours']) : (array_key_exists('hours', $_POST) ? trim((string) $_POST['hours']) : null);
 $points = $pRaw === null ? ($issue['story_points'] !== null ? (float) $issue['story_points'] : null) : ($pRaw === '' || strtolower($pRaw) === 'none' ? null : (is_numeric($pRaw) && (float) $pRaw >= 0 ? (float) $pRaw : false));

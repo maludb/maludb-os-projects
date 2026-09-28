@@ -1,0 +1,15 @@
+<?php /** The settings form (settings_save). Data: s */
+$field = static fn (string $name, string $label, string $input, string $help = ''): string => '<div class="row mb-3" id="settings-form-field-' . $name . '-row"><label for="settings-form-field-' . $name . '" class="col-lg-4 col-form-label fs-12 text-muted">' . e($label) . '</label><div class="col-lg-8">' . $input . ($help !== '' ? '<div class="form-text">' . e($help) . '</div>' : '') . '</div></div>';
+$tzo = ''; foreach (timezone_identifiers_list() as $tz) { $tzo .= '<option value="' . e($tz) . '"' . ($s['timezone'] === $tz ? ' selected' : '') . '>' . e($tz) . '</option>'; }
+$scale = is_array($s['point_scale']) ? implode(', ', $s['point_scale']) : (string) $s['point_scale'];
+$mb = rtrim(rtrim(number_format((int) $s['attachment_max_bytes'] / 1048576, 2, '.', ''), '0'), '.');
+?>
+<form method="post" action="/settings/save.php" id="settings-form" hx-post="/settings/save.php" hx-target="#page-content" hx-swap="innerHTML">
+    <?= csrf_field() ?>
+    <?= $field('timezone', 'Time zone', '<select name="timezone" id="settings-form-field-timezone" class="form-select" data-select2-selector="timezone">' . $tzo . '</select>', 'Sprint dates and the trail are shown in it.') ?>
+    <?= $field('sprint-length-days', 'Sprint length (days)', '<input type="number" name="sprint_length_days" id="settings-form-field-sprint-length-days" class="form-control" min="1" max="60" step="1" required value="' . (int) $s['sprint_length_days'] . '" style="max-width:8rem">', 'What a new sprint proposes as its end date.') ?>
+    <?= $field('point-scale', 'Point scale', '<input type="text" name="point_scale" id="settings-form-field-point-scale" class="form-control" required value="' . e($scale) . '" pattern="[0-9 ,]+" style="max-width:20rem">', 'The story points a picker offers, climbing: 1, 2, 3, 5, 8, 13, 21.') ?>
+    <?= $field('stale-after-days', 'Stale after (days)', '<input type="number" name="stale_after_days" id="settings-form-field-stale-after-days" class="form-control" min="1" max="90" step="1" required value="' . (int) $s['stale_after_days'] . '" style="max-width:8rem">', 'An in-progress issue untouched this long is flagged by hygiene and the Scrum Master.') ?>
+    <?= $field('attachment-max-mb', 'Attachment limit (MB)', '<input type="number" name="attachment_max_mb" id="settings-form-field-attachment-max-mb" class="form-control" min="0.1" step="0.1" required value="' . e($mb) . '" style="max-width:8rem">', 'A file above it is refused.') ?>
+    <?= $field('default-visibility', 'Default visibility', '<select name="default_visibility" id="settings-form-field-default-visibility" class="form-select" style="max-width:20rem"><option value="open"' . ($s['default_visibility'] === 'open' ? ' selected' : '') . '>Open — everyone who may read projects</option><option value="private"' . ($s['default_visibility'] === 'private' ? ' selected' : '') . '>Private — its team only</option></select>', 'What a new project starts as.') ?>
+</form>

@@ -15,6 +15,7 @@ $linkId = request_integer('link') ?? request_integer('link_id');
 $link = $linkId === null ? null : find_issue_link($pdo, $linkId);
 if ($link === null || find_issue($pdo, (int) $link['from_issue_id']) === null) { refuse(404, 'Link not found.'); }
 require_can_work((int) $link['project_id']);
+require_project_active($pdo, (int) $link['project_id']);
 $from = find_issue_for_edit($pdo, (int) $link['from_issue_id']); $to = find_issue_for_edit($pdo, (int) $link['to_issue_id']);
 $pdo->beginTransaction();
 try {

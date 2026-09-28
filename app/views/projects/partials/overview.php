@@ -1,4 +1,5 @@
 <?php /** The Overview tab. Data: project, activity, tz */
+require_once APP_ROOT . '/app/views/shared/chart.php';   // the burndown sparkline
 $p = $project; $key = (string) $p['key']; $base = '/projects/' . $key; $s = $p['active_sprint'] ?? null;
 $roleLabel = ['lead' => 'Lead', 'product_owner' => 'Product owner', 'scrum_master' => 'Scrum master', 'member' => 'Member', 'viewer' => 'Viewer'];
 $daysLeft = $s !== null && $s['end_date'] !== null ? (int) ((strtotime((string) $s['end_date']) - strtotime(date('Y-m-d'))) / 86400) : null;

@@ -13,6 +13,7 @@ $me = (int) current_member_id();
 /** Action `worklog_add` (log worklog.add). Gate: worklog.write in the project. Hours 0 < h ≤ 24; the day a date (today by default). */
 $issue = issue_from_request($pdo);
 require_right_in('worklog.write', (int) $issue['project_id']);
+require_project_active($pdo, (int) $issue['project_id']);
 $h = request_string('hours');
 if (!is_numeric($h) || (float) $h <= 0 || (float) $h > 24) { refuse(422, 'Hours is a number above 0 and up to 24.'); }
 $day = request_date('worked_on') ?? request_date('day');

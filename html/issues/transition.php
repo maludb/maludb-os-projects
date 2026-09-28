@@ -18,6 +18,7 @@ require_can_work($projectId);
 if ((int) ($issue['assignee_member_id'] ?? 0) !== $me && (int) ($issue['reporter_member_id'] ?? 0) !== $me) {
     require_right_in('board.move', $projectId);
 }
+require_project_active($pdo, $projectId);
 $toRaw = request_string('status') ?: request_string('status_id') ?: request_string('to') ?: request_string('value');   // `value`: a board drop (slice 3)
 $fromColumn = request_string('from_column'); $toColumn = request_string('to_column');   // the board's columns, for the trail
 $st = $pdo->prepare('SELECT status_id, name, category FROM mcp_workflow_statuses WHERE project_id = :p AND archived_at IS NULL');

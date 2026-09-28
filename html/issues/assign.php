@@ -13,6 +13,7 @@ $me = (int) current_member_id();
 /** Action `issue_assign` (log issue.assign, before/after the assignee). Gate: can_work. An empty assignee unassigns. */
 $issue = issue_from_request($pdo);
 require_can_work((int) $issue['project_id']);
+require_project_active($pdo, (int) $issue['project_id']);
 $raw = request_string('assignee') ?: request_string('assignee_member_id') ?: request_string('member');
 $to = null;
 if ($raw !== '' && strtolower($raw) !== 'none' && strtolower($raw) !== 'unassigned') {

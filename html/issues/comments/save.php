@@ -29,6 +29,7 @@ if ($commentId !== null) {
 $issue = issue_from_request($pdo);
 $projectId = (int) $issue['project_id'];
 if (current_member()['member_kind'] !== 'agent') { require_right_in('comment.write', $projectId); } else { require_can_see_project($projectId); }
+require_project_active($pdo, $projectId);
 $pdo->beginTransaction();
 try {
     $row = add_comment($pdo, (int) $issue['id'], $body, $me);

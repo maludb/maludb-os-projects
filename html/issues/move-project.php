@@ -22,6 +22,8 @@ if ($target === null) {
 $targetId = (int) $target['project_id'];
 require_right_in('project.admin', $sourceId);
 require_right_in('project.admin', $targetId);
+require_project_active($pdo, $sourceId);
+require_project_active($pdo, $targetId);
 if ($targetId === $sourceId) {
     refuse(422, 'The issue is already in that project.');
 }

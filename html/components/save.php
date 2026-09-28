@@ -21,6 +21,7 @@ if ($project === null) {
 }
 $projectId = (int) $project['project_id'];
 require_right_in('project.admin', $projectId);
+require_project_active($pdo, $projectId);
 $f = [
     'name' => trim(request_string('name')) ?: (string) ($existing['name'] ?? ''),
     'description' => array_key_exists('description', $_POST) ? (trim(request_string('description')) ?: null) : ($existing['description'] ?? null),

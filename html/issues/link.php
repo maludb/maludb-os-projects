@@ -19,6 +19,7 @@ if ($otherView === null) { refuse(404, 'Issue not found: ' . $otherRaw); }
 $other = find_issue_for_edit($pdo, (int) $otherView['issue_id']);
 require_can_work((int) $issue['project_id']);
 require_can_work((int) $other['project_id']);
+require_project_active($pdo, (int) $issue['project_id']);
 if ((int) $other['id'] === (int) $issue['id']) { refuse(422, 'An issue cannot link to itself.'); }
 $kind = request_string('kind', 'relates');
 [$from, $to] = [$issue, $other];

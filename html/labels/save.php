@@ -22,6 +22,7 @@ if ($project === null) {
 }
 $projectId = (int) $project['project_id'];
 require_right_in('project.admin', $projectId);
+require_project_active($pdo, $projectId);
 $name = strtolower(trim(request_string('name'))) ?: (string) ($existing['name'] ?? '');
 $colour = request_string('colour') ?: (string) ($existing['colour'] ?? 'secondary');
 $errors = [];

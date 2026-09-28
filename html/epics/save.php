@@ -29,6 +29,7 @@ if ($id !== null) {
     $projectId = (int) $project['project_id'];
 }
 require_right_in('epic.write', $projectId);
+require_project_active($pdo, $projectId);
 $project ??= find_project($pdo, $projectId);
 $errors = [];
 $f = [];

@@ -79,5 +79,30 @@ Replicates the exemplar. Schema: `workflow_statuses`, `workflow_transitions`, `b
 - An agent's `team_remove`, `workflow_save`, `board_save`, `project_archive` → `pending_approval`.
 - 375 px: the transitions matrix scrolls inside its card; every row's controls are reachable.
 
+## Built and proven (2026-09-28)
+By a fork on the exemplar: `app/features/workflow/queries.php`, `app/features/team/queries.php`,
+`app/features/settings/{queries,present}.php` with the spec's signatures; `html/projects/settings.php` rewritten — the five tabs
+as URLs, Pattern B on `#project-settings-body`, a JSON branch per tab, `?tab=workflow&fragment=row` for a blank status row,
+`?section=labels` still answering slice 4's region; `html/projects/archive.php` (`restore=1` unarchives), `html/workflow/save.php`,
+`html/team/{save,remove}.php`, `html/settings/{index,save,tokens,token-mint,token-revoke}.php`, aliases at the registry's paths;
+the views under `app/views/projects/partials/settings-*.php` and `app/views/settings/`. The Board tab shows the columns, statuses
+and limits, flags a status in no column, and opens slice 3's board form (it carries its own header, so it is not embedded).
+`require_project_active()` (409) in `app/features/projects/queries.php`, called after the rights gate in every write handler of
+slices 1, 3 and 4 (issues' own 422 replaced). `attachments/upload.php`: the settings row's limit rules and the env key is the
+fallback (before, the env key overrode the settings). Proven live as member 1 and a second member (46, external) on SMK6: every
+tab and `/settings` 200 with their JSON; renaming kept the id; archiving a status with three issues refused without a target and
+moved them with one (three `issue.transition` rows `after.by = 'workflow'`); no initial and duplicate names 422; the board refused
+until the new status had a column; the manifest's string form accepted; an external added as viewer sees exactly SMK6; a second
+lead demoted the first; removing a private project's lead refused; a viewer's writes 403; eight kinds of write 409 on the archived
+project, the list and dashboard drop it, unarchive restores; the point scale must climb, the sprint length 1–60, an upload over
+the new limit 422; tokens minted (shown once), listed, revoked, second revoke 404, mint/revoke logged with label and scope only;
+headless Chromium at 1280×800 and 375×740 over eight screens with no sideways scroll and no console errors (the matrix scrolls
+inside its card on a phone). Fixed by the parent: the project overview's burndown sparkline required the chart helper only by
+luck of load order (500 on a project with an active sprint). Open: a status added in the form gets its moves after the first save;
+an active member with no capability can be added to a team (the spec's rule is "active in the mirror"). Agents' `team_remove`,
+`workflow_save`, `board_save` and `project_archive` pause only once their policies exist — the kernel's installer writes them
+(`bin/app_install.php apply`, the owner's to run). SMOKE data left: project SMK6 with SMK6-1..3, two archived statuses, a
+team of five, three revoked tokens.
+
 ## Open Questions
 - (none)

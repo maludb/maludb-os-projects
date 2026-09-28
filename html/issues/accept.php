@@ -13,6 +13,7 @@ $me = (int) current_member_id();
 /** Actions `issue_accept` / withdraw (log issue.accept / issue.unaccept). Gate: issue.accept in the project; only a done issue. */
 $issue = issue_from_request($pdo);
 require_right_in('issue.accept', (int) $issue['project_id']);
+require_project_active($pdo, (int) $issue['project_id']);
 $accept = request_bool('accept') || request_string('accept') === '' && request_string('action') !== 'withdraw';
 $cat = $pdo->prepare('SELECT category FROM mcp_workflow_statuses WHERE status_id = :s'); $cat->execute(['s' => (int) $issue['status_id']]);
 if ($cat->fetchColumn() !== 'done') { refuse(422, 'Only a done issue can be accepted.'); }

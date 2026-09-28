@@ -23,6 +23,7 @@ if ($project === null) {
 }
 $id = (int) $project['project_id'];
 require_right_in('board.configure', $id);
+require_project_active($pdo, $id);
 $before = find_board_config($pdo, $id);
 $statusByName = [];
 $statusIds = [];

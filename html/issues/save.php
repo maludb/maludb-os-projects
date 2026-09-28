@@ -40,7 +40,7 @@ if ($isNew) {
     $parent = $before['parent_issue_id'] !== null ? find_issue($pdo, (int) $before['parent_issue_id']) : null;
 }
 require_can_work($projectId);
-if (find_project($pdo, $projectId)['status'] === 'archived') { refuse(422, 'This project is archived.'); }
+require_project_active($pdo, $projectId);
 
 $errors = [];
 $f = [];

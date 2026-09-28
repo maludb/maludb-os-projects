@@ -18,6 +18,7 @@ if ($seen === null) {
 }
 $projectId = (int) $seen['project_id'];
 require_right_in('epic.write', $projectId);
+require_project_active($pdo, $projectId);
 $project = find_project($pdo, $projectId);
 $status = request_string('action') === 'reopen' ? 'open' : (request_string('status') ?: 'done');
 if (!in_array($status, EPIC_STATUSES, true)) {

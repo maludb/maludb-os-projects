@@ -14,6 +14,7 @@ $me = (int) current_member_id();
 $issue = issue_from_request($pdo);
 $projectId = (int) $issue['project_id'];
 require_can_see_project($projectId);
+require_project_active($pdo, $projectId);
 if (!has_right_in('project.admin', $projectId)) {
     if ((int) ($issue['reporter_member_id'] ?? 0) !== $me) { refuse(403, 'Only the reporter or a project admin may delete an issue.'); }
     $dep = issue_dependents($pdo, (int) $issue['id'], $me);

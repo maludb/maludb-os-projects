@@ -22,6 +22,7 @@ if ($id !== null) {
         refuse(404, 'Project not found.');
     }
     require_right_in('project.admin', $id);
+    require_project_active($pdo, $id);
     $before = find_project_for_edit($pdo, $id);
 } elseif (!is_projects_admin() && !has_right('project.admin')) {
     refuse(403, 'Creating a project is for a Projects admin.');

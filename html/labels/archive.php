@@ -18,6 +18,7 @@ if ($project === null) {
     refuse(404, 'Label not found.');
 }
 require_right_in('project.admin', (int) $project['project_id']);
+require_project_active($pdo, (int) $project['project_id']);
 $pdo->beginTransaction();
 archive_label($pdo, $id, (int) current_member_id());
 log_activity($pdo, 'label.archive', 'label', $id, ['before' => ['name' => $label['name']], 'department_id' => $project['department_id']]);

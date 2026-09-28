@@ -57,6 +57,7 @@ $navlink = function (string $id, string $url, string $icon, string $label) use (
     <meta http-equiv="x-ua-compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="<?= e(app_name()) ?>" />
+    <!-- htmx 2 swaps nothing above 3xx by default; a refused write (422) re-renders its form or lands in #flash (HX-Retarget). -->    <meta name="htmx-config" content='{"responseHandling":[{"code":"204","swap":false},{"code":"[23]..","swap":true},{"code":"422","swap":true,"error":false},{"code":"[45]..","swap":false,"error":true}]}'>
     <meta name="csrf-token" id="csrf-token-meta" content="<?= e(csrf_token()) ?>" />
     <title><?= e($title) ?> · <?= e(app_name()) ?></title>
     <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png" />

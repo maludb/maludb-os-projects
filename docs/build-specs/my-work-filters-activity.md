@@ -55,5 +55,22 @@ Replicates the exemplar. Schema: `mcp_issues`, `mcp_issue_watchers`, `mcp_saved_
 - Activity: a Viewer sees their own rows and their open projects' rows, never a private project's; the sentence for each event kind reads right (a fixture per kind); the CSV has the page's rows and the header.
 - 375 px: tabs wrap, rows keep the state mark and the key visible without horizontal scroll.
 
+## Built and proven (2026-09-28)
+By a fork on the exemplar: My work (`html/my-work.php`, `app/features/mywork/{queries,present}.php` — `my_work_tab_sql()` is
+one SQL condition per tab over `mcp_issues`, the shape the Python `my_work` tool copies; four tabs as URLs with counts,
+Pattern B on `#my-work-results`, JSON `{tab, counts, items[], total}`); saved filters (`html/filters/{index,form,save,delete}.php`,
+`app/features/filters/queries.php`; save keeps the issues-list path and adds the edit path — name, project and sharing change,
+keys stay; a duplicate name 422 with `fields.name`); the trail (`html/activity.php` rewritten over
+`app/features/activity/{queries,sentence}.php`: project, member, action prefix, since 1/7/30/90, `entity=issue:KEY` or
+`kind:id`; `activity_sentence()` covers every action the application logs, issue rows through the exemplar's
+`issue_history_sentence()`; the CSV download logged `activity.export`). Proven live as member 1 through a hand-off: three
+SMOKE issues landing on the right tabs (assigned and overdue, watching, in review) with the strip's counts matching; a filter
+saved from the issues list (HX-Location), edited, applied by the list's JSON, its duplicate refused, deleted, a bogus id 404;
+the trail by project, prefix, period and entity with record links, the CSV with its Content-Disposition, Pattern B partials
+with `Vary: HX-Request`; headless Chromium at 1280×800 and 375×740 on five screens with no sideways scroll and no console
+errors (the sentence column wraps). Open: a project-less saved filter has no single place to apply, so its card says to pick
+it from any project's issues list; "In review for me" keys on the `is_review` flag or a column named Review — epics have no
+owner column, so that clause is not in the query. SMOKE data left: SMK1-5, SMK1-6, SMK1-7 and a watcher row on SMK1-6.
+
 ## Open Questions
 - (none)

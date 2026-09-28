@@ -332,3 +332,27 @@ two for K3–K4.
   sentence before an expert exists; every refusal in the proof list refuses. **Phase 3, slice 1 (projects and issues,
   the exemplar) built and proven the same day** (`docs/build-specs/projects-issues.md`, "Built and proven"). Next:
   slices 2–7 by workers replicating it, and Phase 4 (the two read servers are being built beside it).
+- **2026-09-28, evening** — **Phases 3 and 4 complete; Projects is built end to end.** Slices 2–7 by forks replicating the exemplar,
+  each proven live as member 1 (and a second member for the refusals) and in headless Chromium at 1280×800 and 375×740, each
+  spec's "Built and proven" the record: the backlog and sprints (one SortableJS group, rank and plan by drop or by button, start,
+  close with carry-over, the burndown), the board (columns, WIP shown not enforced, swimlanes, drag posting the same transition
+  as the card's select, a 30-second poll deferred while dragging, the board form), epics, labels and components with the move to
+  another project (old keys 301), six reports as hand-drawn SVG with their tables and a CSV, My work, saved filters and the trail
+  in sentences, and the settings (five tabs, the workflow editor moving an archived status's issues, the team with one lead, the
+  archive making a project read-only through `require_project_active()`, the one settings row, the member's tokens). Two shared
+  changes: the layout's `htmx-config` meta makes a 422 swap (before it no refused write showed its sentence), and the transition's
+  reply names the issue's status `new_status`. db/014: the sprint's commitment as `committed` scope events, so a re-estimate
+  moves the burndown by the delta. Phase 4: the two read MCP servers; the registry rebuilt to 48 of 48 actions (four alias handlers
+  at the manifest's paths) and published as `mcp/registries/projects.json` on the kernel; roles refreshed from `app_roles`; the
+  skills at application scope; the Scrum Master (agent 58) and the **Projects Expert (agent 59)** hired by the kernel's new
+  `bin/hire_application_agent.php` (the manifest's `agents[]` — tools, access at the declared capability, skills, the first named
+  the expert); the command bar answered a real question through the kernel's chat endpoint from the Records MCP (SMKA-1 and its
+  assignee; the private SMK1 honestly unseen); the health check up on all four endpoints; an agent's `issue_delete` pausing as
+  approval request 28 — after a kernel fix: the actions server had asked the hook about the action's key, not its log event, so no
+  application action had ever paused. The kernel's side of the plan: K1, K2 (earlier), **K3 `bin/app_install.php plan|apply`**
+  (idempotent over every runbook step; `deploy/` files became `{{PLACEHOLDER}}` templates; its plan on this install finds
+  everything done but the six approval policies for the `other`-category actions and the registry refresh — `apply` is root and
+  the owner's to run), **K4 `bin/install_default_applications.sh`**; K5 not built. Plugin `maludb-os-integration` 0.4.2 records the
+  installer and the templates. Open, small: a status added in the workflow form gets its moves after the first save; an active
+  member with no capability can join a team; the builder reads the seven templated screen paths as unbuilt; sprints started before
+  db/014 keep the old burndown reading for their committed issues. SMOKE data: projects SMK1 (private), SMK4, SMK5, SMK6, SMKA (open).

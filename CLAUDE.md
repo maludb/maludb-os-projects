@@ -53,8 +53,17 @@ answers), `docs/projects-mcp-tool-surface.md`, `docs/projects-action-manifest.md
   `projects.subello.com`, loopback :8181); timers `projects-directory-sync` and `projects-activity-ingest`
   from `deploy/`. In the kernel the catalog entry `projects` (kind `ours`) is seeded by db/158; the
   application row, its token, endpoints, registry and agents come with registration (Phase 4).
-- **State (2026-09-28):** Phase 0–1 written, awaiting the checkpoint. Nothing of Phase 2 onward exists;
-  `app/`, `html/sso*`, `mcp/*.py` and `bin/*` hold the kernel's and HR's kit copied verbatim for Phase 2.
+- **State (2026-09-28, evening): BUILT and proven end to end.** Phases 0–4 complete: the schema (db/001–014), Phase 2 (sign-on,
+  mirror, shell), Phase 3's seven slices (each spec's "Built and proven" section is the record; the exemplar is
+  `docs/build-specs/projects-issues.md`), the two read MCP servers (8823/8824) and the registration in the kernel — application 50,
+  endpoints 20–23, roles from `app_roles`, skills 22–25 at application scope, the registry on the kernel's Actions MCP (48 of 48
+  actions), the **Projects Expert (agent 59)** and the **Scrum Master (agent 58)** hired by the kernel's
+  `bin/hire_application_agent.php`; the command bar answers through the kernel's chat endpoint; an agent's deletion pauses for
+  approval. `deploy/` files are templates (`{{DOMAIN}}`, `{{APP_INTERNAL_PORT}}`, …) for the kernel's installer
+  `bin/app_install.php`. The record of what was built and why: `docs/projects-design.md` §13. Owed to the owner: run the kernel's
+  `sudo php bin/app_install.php apply /srv/apps/projects --grant-standing-departments` (writes the six agent approval policies
+  for the `other`-category actions), DNS and proxy for `projects.subello.com`, decide approval request 28; SMOKE data (projects
+  SMK1, SMK4, SMK5, SMK6, SMKA and their issues, sprints, epic, labels) is yours to delete.
 - Database `subello_projects` on the office's PostgreSQL 17 (roles `projects_rw`, `projects_records_ro`,
   `projects_activity_ro`).
 - Ports are configuration: `APP_INTERNAL_PORT` 8181, `MCP_RECORDS_PORT` 8823, `MCP_ACTIVITY_PORT` 8824 in

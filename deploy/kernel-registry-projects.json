@@ -80,7 +80,7 @@
   },
   "registry": {
     "generated_from": "docs/business-os-action-manifest.md",
-    "generated_at": "2026-09-28T01:15:30+00:00",
+    "generated_at": "2026-09-28T12:16:27+00:00",
     "screens": {
       "dashboard": {
         "screen": "dashboard",
@@ -88,7 +88,7 @@
         "section": "Home",
         "when": "their Projects home: their open issues, their projects, the active sprints and how each burns down",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "my-work": {
@@ -100,7 +100,7 @@
           "state",
           "project"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "activity": {
@@ -123,7 +123,7 @@
         "section": "Home",
         "when": "the business's Projects defaults: timezone, sprint length, the point scale, the stale threshold, attachment limit, default visibility",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "tokens": {
@@ -132,7 +132,7 @@
         "section": "Home",
         "when": "their own access tokens for the two MCP servers",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "projects-list": {
@@ -146,7 +146,7 @@
           "status",
           "mine"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "project-view": {
@@ -155,7 +155,7 @@
         "section": "Projects",
         "when": "one project's overview: lead, team, active sprint, epics with progress, recent activity",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "project-add": {
@@ -170,7 +170,7 @@
           "lead",
           "visibility"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "project-edit": {
@@ -179,7 +179,7 @@
         "section": "Projects",
         "when": "to change a project's name, description, department, lead, customer, visibility, board mode or swimlane",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "project-settings": {
@@ -283,7 +283,7 @@
         "params": [
           "tab"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "issue-add": {
@@ -300,7 +300,7 @@
           "assignee",
           "summary"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "issue-edit": {
@@ -309,7 +309,7 @@
         "section": "Issues",
         "when": "to change an issue's summary, description, type, priority, points, estimate, assignee, epic, component, labels, due date",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "sprint-view": {
@@ -318,7 +318,7 @@
         "section": "Sprints",
         "when": "one sprint: goal, dates, burndown, its issues by status, scope changes, and to close it with carry-over",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "sprint-add": {
@@ -333,7 +333,7 @@
           "start_date",
           "end_date"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "sprint-edit": {
@@ -342,7 +342,7 @@
         "section": "Sprints",
         "when": "to change a sprint's name, goal or dates",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "epic-view": {
@@ -351,7 +351,7 @@
         "section": "Epics",
         "when": "one epic: its summary, progress, and its issues",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "epic-add": {
@@ -364,7 +364,7 @@
           "name",
           "target_date"
         ],
-        "built": false,
+        "built": true,
         "stub": false
       },
       "epic-edit": {
@@ -373,7 +373,7 @@
         "section": "Epics",
         "when": "to change an epic's name, summary, colour, target date or status",
         "params": [],
-        "built": false,
+        "built": true,
         "stub": false
       }
     },
@@ -425,7 +425,7 @@
         "approval": null,
         "log_event": "settings.save",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "token_mint": {
         "action": "token_mint",
@@ -450,7 +450,7 @@
         "approval": null,
         "log_event": "token.mint",
         "who": "all (own)",
-        "built": false
+        "built": true
       },
       "token_revoke": {
         "action": "token_revoke",
@@ -469,7 +469,7 @@
         "approval": null,
         "log_event": "token.revoke",
         "who": "own",
-        "built": false
+        "built": true
       },
       "project_create": {
         "action": "project_create",
@@ -536,7 +536,7 @@
         "approval": null,
         "log_event": "project.create",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "project_update": {
         "action": "project_update",
@@ -609,7 +609,7 @@
         "approval": null,
         "log_event": "project.update",
         "who": "admin",
-        "built": false,
+        "built": true,
         "partial": true
       },
       "project_archive": {
@@ -635,7 +635,7 @@
         "approval": "deletion",
         "log_event": "project.archive",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "team_add": {
         "action": "team_add",
@@ -666,7 +666,7 @@
         "approval": null,
         "log_event": "team.add",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "team_remove": {
         "action": "team_remove",
@@ -691,7 +691,7 @@
         "approval": "other",
         "log_event": "team.remove",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "label_save": {
         "action": "label_save",
@@ -728,7 +728,7 @@
         "approval": null,
         "log_event": "label.save",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "label_archive": {
         "action": "label_archive",
@@ -747,7 +747,7 @@
         "approval": null,
         "log_event": "label.archive",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "component_save": {
         "action": "component_save",
@@ -790,7 +790,7 @@
         "approval": null,
         "log_event": "component.save",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "component_archive": {
         "action": "component_archive",
@@ -809,7 +809,7 @@
         "approval": null,
         "log_event": "component.archive",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "workflow_save": {
         "action": "workflow_save",
@@ -846,7 +846,7 @@
         "approval": "other",
         "log_event": "workflow.save",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "board_save": {
         "action": "board_save",
@@ -883,7 +883,7 @@
         "approval": "other",
         "log_event": "board.save",
         "who": "sm, admin",
-        "built": false
+        "built": true
       },
       "issue_create": {
         "action": "issue_create",
@@ -980,7 +980,7 @@
         "approval": null,
         "log_event": "issue.create",
         "who": "team",
-        "built": false
+        "built": true
       },
       "issue_update": {
         "action": "issue_update",
@@ -1083,7 +1083,7 @@
         "approval": null,
         "log_event": "issue.update",
         "who": "team",
-        "built": false,
+        "built": true,
         "partial": true
       },
       "issue_assign": {
@@ -1115,7 +1115,7 @@
         "approval": null,
         "log_event": "issue.assign",
         "who": "team",
-        "built": false
+        "built": true
       },
       "issue_transition": {
         "action": "issue_transition",
@@ -1146,7 +1146,7 @@
         "approval": null,
         "log_event": "issue.transition",
         "who": "team",
-        "built": false
+        "built": true
       },
       "issue_estimate": {
         "action": "issue_estimate",
@@ -1177,7 +1177,7 @@
         "approval": null,
         "log_event": "issue.estimate",
         "who": "po, team",
-        "built": false
+        "built": true
       },
       "issue_rank": {
         "action": "issue_rank",
@@ -1208,7 +1208,7 @@
         "approval": null,
         "log_event": "issue.rank",
         "who": "po",
-        "built": false
+        "built": true
       },
       "issue_move_to_sprint": {
         "action": "issue_move_to_sprint",
@@ -1233,7 +1233,7 @@
         "approval": null,
         "log_event": "issue.move_to_sprint",
         "who": "po, sm",
-        "built": false
+        "built": true
       },
       "issue_accept": {
         "action": "issue_accept",
@@ -1264,7 +1264,7 @@
         "approval": null,
         "log_event": "issue.accept",
         "who": "po",
-        "built": false
+        "built": true
       },
       "issue_link": {
         "action": "issue_link",
@@ -1295,7 +1295,7 @@
         "approval": null,
         "log_event": "issue.link",
         "who": "team",
-        "built": false
+        "built": true
       },
       "issue_unlink": {
         "action": "issue_unlink",
@@ -1314,7 +1314,7 @@
         "approval": null,
         "log_event": "issue.unlink",
         "who": "team",
-        "built": false
+        "built": true
       },
       "issue_move_project": {
         "action": "issue_move_project",
@@ -1339,7 +1339,7 @@
         "approval": null,
         "log_event": "issue.move_project",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "issue_delete": {
         "action": "issue_delete",
@@ -1364,7 +1364,7 @@
         "approval": "deletion",
         "log_event": "issue.delete",
         "who": "admin",
-        "built": false
+        "built": true
       },
       "watch": {
         "action": "watch",
@@ -1383,7 +1383,7 @@
         "approval": null,
         "log_event": "issue.watch",
         "who": "all",
-        "built": false
+        "built": true
       },
       "unwatch": {
         "action": "unwatch",
@@ -1402,7 +1402,7 @@
         "approval": null,
         "log_event": "issue.unwatch",
         "who": "all",
-        "built": false
+        "built": true
       },
       "comment_add": {
         "action": "comment_add",
@@ -1427,7 +1427,7 @@
         "approval": null,
         "log_event": "comment.add",
         "who": "team, all (a viewer may not)",
-        "built": false
+        "built": true
       },
       "comment_edit": {
         "action": "comment_edit",
@@ -1452,7 +1452,7 @@
         "approval": null,
         "log_event": "comment.edit",
         "who": "own",
-        "built": false
+        "built": true
       },
       "comment_delete": {
         "action": "comment_delete",
@@ -1471,7 +1471,7 @@
         "approval": "deletion",
         "log_event": "comment.delete",
         "who": "own, admin",
-        "built": false
+        "built": true
       },
       "checklist_add": {
         "action": "checklist_add",
@@ -1496,7 +1496,7 @@
         "approval": null,
         "log_event": "checklist_item.add",
         "who": "team",
-        "built": false
+        "built": true
       },
       "checklist_toggle": {
         "action": "checklist_toggle",
@@ -1515,7 +1515,7 @@
         "approval": null,
         "log_event": "checklist_item.toggle",
         "who": "team",
-        "built": false
+        "built": true
       },
       "checklist_delete": {
         "action": "checklist_delete",
@@ -1534,7 +1534,7 @@
         "approval": null,
         "log_event": "checklist_item.delete",
         "who": "team",
-        "built": false
+        "built": true
       },
       "worklog_add": {
         "action": "worklog_add",
@@ -1571,7 +1571,7 @@
         "approval": null,
         "log_event": "worklog.add",
         "who": "team",
-        "built": false
+        "built": true
       },
       "worklog_delete": {
         "action": "worklog_delete",
@@ -1590,7 +1590,7 @@
         "approval": null,
         "log_event": "worklog.delete",
         "who": "own, admin",
-        "built": false
+        "built": true
       },
       "attachment_add": {
         "action": "attachment_add",
@@ -1615,7 +1615,7 @@
         "approval": null,
         "log_event": "attachment.add",
         "who": "team",
-        "built": false
+        "built": true
       },
       "attachment_delete": {
         "action": "attachment_delete",
@@ -1634,7 +1634,7 @@
         "approval": "deletion",
         "log_event": "attachment.delete",
         "who": "own, admin",
-        "built": false
+        "built": true
       },
       "sprint_create": {
         "action": "sprint_create",
@@ -1677,7 +1677,7 @@
         "approval": null,
         "log_event": "sprint.create",
         "who": "po, sm",
-        "built": false
+        "built": true
       },
       "sprint_update": {
         "action": "sprint_update",
@@ -1720,7 +1720,7 @@
         "approval": null,
         "log_event": "sprint.update",
         "who": "po, sm",
-        "built": false
+        "built": true
       },
       "sprint_start": {
         "action": "sprint_start",
@@ -1751,7 +1751,7 @@
         "approval": "other",
         "log_event": "sprint.start",
         "who": "sm",
-        "built": false
+        "built": true
       },
       "sprint_close": {
         "action": "sprint_close",
@@ -1776,7 +1776,7 @@
         "approval": "other",
         "log_event": "sprint.close",
         "who": "sm",
-        "built": false
+        "built": true
       },
       "sprint_delete": {
         "action": "sprint_delete",
@@ -1795,7 +1795,7 @@
         "approval": "deletion",
         "log_event": "sprint.delete",
         "who": "sm, admin",
-        "built": false
+        "built": true
       },
       "epic_create": {
         "action": "epic_create",
@@ -1838,7 +1838,7 @@
         "approval": null,
         "log_event": "epic.create",
         "who": "po",
-        "built": false
+        "built": true
       },
       "epic_update": {
         "action": "epic_update",
@@ -1887,7 +1887,7 @@
         "approval": null,
         "log_event": "epic.update",
         "who": "po",
-        "built": false,
+        "built": true,
         "partial": true
       },
       "epic_close": {
@@ -1913,7 +1913,7 @@
         "approval": null,
         "log_event": "epic.close",
         "who": "po",
-        "built": false
+        "built": true
       },
       "filter_save": {
         "action": "filter_save",
@@ -1956,7 +1956,7 @@
         "approval": null,
         "log_event": "saved_filter.save",
         "who": "all (own)",
-        "built": false
+        "built": true
       },
       "filter_delete": {
         "action": "filter_delete",
@@ -1975,7 +1975,7 @@
         "approval": "deletion",
         "log_event": "saved_filter.delete",
         "who": "own",
-        "built": false
+        "built": true
       }
     }
   }

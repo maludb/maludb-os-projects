@@ -140,5 +140,23 @@ as an empty state with the slice's name.)
 - 375 px and 1280 px: no horizontal scroll on the list, the project view, the issues table (it scrolls inside its card with a visible scrollbar), the issue view and the form.
 - Rules the exemplar sets: query functions take PDO and explicit values; reads through `mcp_*` views except the form's base-table read behind the gate; `refuse()` for every refusal; `saved_go()` after a save; every form field id `{entity}-form-field-{name}`; the manifest's param name and the column name both accepted (`assignee` / `assignee_member_id`, `sprint` / `sprint_id`, `epic` / `epic_id`); an issue is addressed by key everywhere a person types, by id in every table.
 
+## Built and proven (2026-09-28)
+Two halves, both by the planning-class model: the projects half (list, view with the eight tabs, form and save, the issues
+list with saved filters, the archive stub) and the issues half (the view with its eight regions each re-fetched on
+`issueChanged`, the form for new/edit/subtask, save with the partial update, the transition, assign, estimate, accept,
+watch, link, unlink and delete actions, the comment, checklist, worklog and attachment satellites; the shared helpers in
+`app/features/issues/respond.php`). Every proof above was run live as member 1 through kernel-minted hand-offs and as a
+second member for the refusals: SMK1 created, viewed on every tab, edited, listed and searched; SMK1-1 created with its
+subtasks, moved To do → In progress → In review → Done with the clocks stamped, reopened, refused To do → Done with the
+trigger's sentence, assigned, estimated, accepted and withdrawn, watched, linked with the reverse refused as a cycle,
+commented, ticked, logged, attached (over the limit refused; deleted files gone), deleted; another member refused on
+another's comment, worklog, attachment and issue and on rights they lack; a partial update through an action token
+(`_partial=1`, `priority` alone) changed one field, kept the rest and logged before/after with source `assistant`; headless
+Chromium at 1280×800 and 375×740 on the list, the project view, the issues list, the form, the issue view and the issue
+form with no sideways scroll and no console errors; on a phone the Details card comes first. An agent's `issue_delete`
+pausing as `pending_approval` is Phase 4's proof (the registry on the kernel's actions server). Two fixes on the way:
+`toggle_checklist_item()` casts `done_by`; `save.php` requires `partial_update.php` itself. SMOKE data left: SMK1 with
+SMK1-1 (Done, watched, one checklist item), soft-deleted comments and one soft-deleted attachment row, saved filter 2.
+
 ## Open Questions
 - (none)

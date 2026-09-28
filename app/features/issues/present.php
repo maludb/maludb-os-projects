@@ -96,7 +96,7 @@ function issue_history_sentence(array $a): string
         'issue.transition' => $who . ' moved it to ' . ($after['status'] ?? 'another status') . (isset($before['status']) ? ' from ' . $before['status'] : ''),
         'issue.assign' => $who . (isset($after['assignee_name']) && $after['assignee_name'] !== null ? ' assigned it to ' . $after['assignee_name'] : ' unassigned it'),
         'issue.estimate' => $who . ' estimated it at ' . (isset($after['story_points']) && $after['story_points'] !== null ? $after['story_points'] . ' points' : 'no points') . (isset($before['story_points']) && $before['story_points'] !== null ? ' (was ' . $before['story_points'] . ')' : ''),
-        'issue.update' => $who . ' changed ' . implode(', ', array_map(static fn ($k): string => str_replace('_', ' ', (string) $k), array_keys($after)) ?: ['it']),
+        'issue.update' => $who . ' changed ' . implode(', ', array_map(static fn ($k): string => str_replace(['_member_id', '_id', '_'], ['', '', ' '], (string) $k), array_keys($after)) ?: ['it']),
         'issue.accept' => $who . ' accepted it', 'issue.unaccept' => $who . ' withdrew the acceptance',
         'issue.watch' => $who . ' started watching', 'issue.unwatch' => $who . ' stopped watching',
         'issue.link' => $who . ' linked it: ' . ($after['from_key'] ?? '?') . ' ' . str_replace('_', ' ', (string) ($after['kind'] ?? 'relates')) . ' ' . ($after['to_key'] ?? '?'),

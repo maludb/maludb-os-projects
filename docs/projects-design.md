@@ -329,5 +329,6 @@ two for K3–K4.
   enabled; the timer units installed; the Python venv built. **Phase 2 built and proven the same day**
   (`docs/build-specs/sso-shell.md`, "Built and proven"): a person opens Projects from the launcher and lands signed in
   on the dashboard; the mirror fills and refreshes every minute; the ingest ships; the bar answers the kernel's
-  sentence before an expert exists; every refusal in the proof list refuses. Next: Phase 3, slice 1 (projects and
-  issues, the exemplar).
+  sentence before an expert exists; every refusal in the proof list refuses. **Phase 3, slice 1 (projects and issues,
+  the exemplar) built and proven the same day** (`docs/build-specs/projects-issues.md`, "Built and proven"). Next:
+  slices 2–7 by workers replicating it, and Phase 4 (the two read servers are being built beside it).

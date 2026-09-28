@@ -1,0 +1,10 @@
+[Unit]
+Description=Projects directory mirror <- the kernel's change feed (one pass)
+After=network.target postgresql.service
+
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/apps/projects
+ExecStart=/usr/bin/php /srv/apps/projects/bin/directory_sync.php

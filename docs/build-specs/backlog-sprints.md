@@ -78,5 +78,27 @@ Replicates the exemplar. Schema: `sprints`, `sprint_scope_events` (db/007), `iss
 - Close: the done issues stay, the rest go to the chosen sprint or the backlog, `completed`/`carried` recorded, the sprint is read-only after; an agent's `sprint_close` → `pending_approval`.
 - 375 px: the sprint boxes stack, the backlog rows keep their move controls reachable (44 px), no horizontal scroll.
 
+## Built and proven (2026-09-28)
+By a fork on the exemplar: `app/features/sprints/{queries,present}.php` with the spec's signatures; the backlog
+(`html/projects/backlog.php`, views `app/views/projects/backlog.php` and partials `backlog-boxes`, `backlog-list`,
+`backlog-row`) — the sprint boxes and the backlog list as one SortableJS group, a drop in the list posting `issues/rank.php`
+and a drop in a box posting `issues/sprint.php` (the manifest's `move-to-sprint.php` is a shim of it), the inline points
+select, Top/Up/Down/Bottom, Move to…, the filters (q, epic, assignee, type, unestimated; drag disabled while a filter is on),
+regions `#backlog-boxes` and `#backlog-list` re-fetched on `backlogChanged`, `issueChanged`, `sprintChanged`; the sprints
+list (`html/projects/sprints.php`, region `#sprints-list`); `html/sprints/{index,view,form,save,start,close,delete}.php` with
+the sprint page's facts, the close form with its carry-over select, delete for an empty future sprint, the burndown SVG
+(remaining, ideal dashed, scope), issues by category and the scope changes. Proven live as member 1: rank top, between,
+bottom and "nothing said" 422 (`issue.rank` with before/after and the neighbours' keys); create, bad date and duplicate
+name 422, edit, end-before-start 422, a closed sprint's edit 409; start with 8 points committed and the keys logged, start
+again 409, a second active sprint 409; a move into the active sprint an `added` event, a re-estimate an `estimated` event,
+Done a `done` event with the burndown answering; close to the backlog (2 issues, 11 points carried) and close into a future
+sprint that then held them; a closed sprint takes nothing 422, closes again 409, delete 409; delete refused with an issue
+in it and allowed once empty; the JSON branches; headless Chromium at 1280×800 and 375×740 with no sideways scroll and no
+console errors, a real drag from the backlog into a box posting the move and re-rendering both regions (SortableJS's mouse
+fallback forced in the probe only — headless Chromium runs no native HTML5 drag). Fixed on the way: the sprint page
+requires `app/views/shared/chart.php` itself; the facts-and-burndown pair is a flex row (a `.row` straight under
+`.main-content` overflowed by 8px). Known: `sprint_burndown()` (db/010) counts a re-estimate of an issue committed at start
+as the full new value, not the delta — a schema fix owed (db/014). SMOKE data left: SMK1-16..18, closed sprints 6, 9, 11.
+
 ## Open Questions
 - (none)

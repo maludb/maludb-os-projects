@@ -16,6 +16,14 @@ Two token shapes, one key: a person's own `mcp_` token (`mcp_resolve_token`), or
 run token (`ACTION_TOKEN_KEY`), for which the server asks the kernel's run-facts call once per run and
 offers exactly the tools granted — fail closed, and no tool acts when `is_eval`.
 
+
+> **Built 2026-09-28.** 23 records tools and 7 activity tools (`agent_activity` and `system_jobs` added as HR has them). The
+> db/010 report functions read base tables, so the records role reaches them through the SECURITY DEFINER wrappers of
+> **db/013** (`mcp_sprint_burndown`, `mcp_project_velocity`, `mcp_project_cycle_time`, `mcp_project_flow`,
+> `mcp_project_hygiene` — empty for a project the caller may not see); db/012 adds `mcp_admit_agent()` for the run-facts
+> gate. The activity role cannot read `mcp_sprint_scope_events`, so `sprint_events` covers the `sprint.*` log rows and points
+> at `sprint_scope_changes` on the records server.
+
 ## Records server — `projects_records_mcp` (role `projects_records_ro`, `MCP_RECORDS_PORT`)
 
 ### Roles (kernel db/145, maludb-os-integration 0.4.1)

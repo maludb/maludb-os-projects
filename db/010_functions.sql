@@ -16,7 +16,7 @@ DECLARE
 BEGIN
     INSERT INTO workflow_statuses (project_id, name, category, sort_order, is_initial) VALUES (p_project_id, 'To do', 'todo', 1, true) RETURNING id INTO v_todo;
     INSERT INTO workflow_statuses (project_id, name, category, sort_order) VALUES (p_project_id, 'In progress', 'in_progress', 2) RETURNING id INTO v_prog;
-    INSERT INTO workflow_statuses (project_id, name, category, sort_order) VALUES (p_project_id, 'In review', 'in_progress', 3) RETURNING id INTO v_rev;
+    INSERT INTO workflow_statuses (project_id, name, category, sort_order, is_review) VALUES (p_project_id, 'In review', 'in_progress', 3, true) RETURNING id INTO v_rev;
     INSERT INTO workflow_statuses (project_id, name, category, sort_order) VALUES (p_project_id, 'Done', 'done', 4) RETURNING id INTO v_done;
     INSERT INTO workflow_transitions (project_id, from_status_id, to_status_id) VALUES
         (p_project_id, v_todo, v_prog), (p_project_id, v_prog, v_rev), (p_project_id, v_prog, v_todo),
@@ -214,6 +214,45 @@ BEGIN
      WHERE s.id = i.status_id AND i.sprint_id = p_sprint_id AND i.parent_issue_id IS NULL AND s.category <> 'done';
     RETURN QUERY SELECT v_done, v_carry, v_n;
 END$$;
+
+-- ---------------------------------------------------------------------------------------------
+-- 6b. An issue moved to another project: a new key from the target's counter, the old key kept as
+--     an alias, subtasks re-keyed along, links and history kept (they point at the id), the sprint
+--     and epic dropped (they belong to the old project), the status mapped by category.
+-- ---------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION projects_move_issue(p_issue_id bigint, p_target_project_id bigint, p_by bigint) RETURNS text
+    LANGUAGE plpgsql AS $$
+DECLARE
+    v_issue issues%ROWTYPE; v_key text; v_n integer; v_status bigint; v_cat text; v_sub bigint;
+BEGIN
+    SELECT * INTO v_issue FROM issues WHERE id = p_issue_id;
+    IF v_issue.id IS NULL THEN RAISE EXCEPTION 'No such issue'; END IF;
+    IF v_issue.project_id = p_target_project_id THEN RETURN v_issue.key; END IF;
+    IF v_issue.parent_issue_id IS NOT NULL THEN RAISE EXCEPTION 'Move the parent; a subtask follows it'; END IF;
+    SELECT category INTO v_cat FROM workflow_statuses WHERE id = v_issue.status_id;
+    SELECT id INTO v_status FROM workflow_statuses WHERE project_id = p_target_project_id AND archived_at IS NULL AND category = v_cat ORDER BY sort_order LIMIT 1;
+    IF v_status IS NULL THEN RAISE EXCEPTION 'The target project has no status of that category'; END IF;
+    UPDATE projects SET issue_counter = issue_counter + 1 WHERE id = p_target_project_id RETURNING issue_counter, key INTO v_n, v_key;
+    IF v_key IS NULL THEN RAISE EXCEPTION 'No such project'; END IF;
+    INSERT INTO issue_aliases (old_key, issue_id) VALUES (v_issue.key, p_issue_id);
+    PERFORM set_config('app.force_transition', '1', true);
+    UPDATE issues SET project_id = p_target_project_id, number = v_n, key = v_key || '-' || v_n, status_id = v_status,
+           sprint_id = NULL, epic_id = NULL, component_id = NULL,
+           rank = (SELECT coalesce(max(rank), 0) + 1000 FROM issues WHERE project_id = p_target_project_id)
+     WHERE id = p_issue_id;
+    DELETE FROM issue_labels WHERE issue_id = p_issue_id;   -- labels are a project's own
+    FOR v_sub IN SELECT id FROM issues WHERE parent_issue_id = p_issue_id LOOP
+        UPDATE projects SET issue_counter = issue_counter + 1 WHERE id = p_target_project_id RETURNING issue_counter INTO v_n;
+        INSERT INTO issue_aliases (old_key, issue_id) SELECT key, id FROM issues WHERE id = v_sub;
+        SELECT id INTO v_status FROM workflow_statuses s WHERE s.project_id = p_target_project_id AND s.archived_at IS NULL
+           AND s.category = (SELECT c.category FROM issues i JOIN workflow_statuses c ON c.id = i.status_id WHERE i.id = v_sub) ORDER BY s.sort_order LIMIT 1;
+        UPDATE issues SET project_id = p_target_project_id, number = v_n, key = v_key || '-' || v_n, status_id = v_status,
+               sprint_id = NULL, epic_id = NULL, component_id = NULL WHERE id = v_sub;
+        DELETE FROM issue_labels WHERE issue_id = v_sub;
+    END LOOP;
+    RETURN v_key || '-' || (SELECT number FROM issues WHERE id = p_issue_id);
+END$$;
+GRANT EXECUTE ON FUNCTION projects_move_issue(bigint, bigint, bigint) TO projects_rw;
 
 -- ---------------------------------------------------------------------------------------------
 -- 7. The reports.

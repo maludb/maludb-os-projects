@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Build mcp/action_registry.json from docs/hr-action-manifest.md (copied from the kernel, 2026-09-23).
+ * Build mcp/action_registry.json from docs/projects-action-manifest.md (copied from the kernel, 2026-09-23).
  *
  * The manifest is the contract between the voice surface and the app: every screen the
  * assistant can reach and every action it can perform. This script turns it into the
@@ -17,7 +17,7 @@ declare(strict_types=1);
  *   php bin/build_action_registry.php --check    # verify only; non-zero exit if stale
  */
 
-const MANIFEST = __DIR__ . '/../docs/hr-action-manifest.md';
+const MANIFEST = __DIR__ . '/../docs/projects-action-manifest.md';
 const REGISTRY = __DIR__ . '/../mcp/action_registry.json';
 const WEB_ROOT = __DIR__ . '/../html';
 

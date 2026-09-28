@@ -55,6 +55,18 @@ CREATE TABLE saved_filters (
 );
 CREATE TRIGGER saved_filters_touch BEFORE UPDATE ON saved_filters FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
 
+-- A comment, an attachment or a worklog is activity on its issue: the issue's updated_at moves, so the
+-- hygiene rule (db/010, "stale") and "recently updated" see it.
+CREATE OR REPLACE FUNCTION touch_issue_of_row() RETURNS trigger
+    LANGUAGE plpgsql AS $$
+BEGIN
+    UPDATE issues SET updated_at = now() WHERE id = COALESCE(NEW.issue_id, OLD.issue_id);
+    RETURN COALESCE(NEW, OLD);
+END$$;
+CREATE TRIGGER comments_touch_issue AFTER INSERT OR UPDATE OR DELETE ON comments FOR EACH ROW EXECUTE FUNCTION touch_issue_of_row();
+CREATE TRIGGER attachments_touch_issue AFTER INSERT OR UPDATE OR DELETE ON attachments FOR EACH ROW EXECUTE FUNCTION touch_issue_of_row();
+CREATE TRIGGER worklogs_touch_issue AFTER INSERT OR UPDATE OR DELETE ON worklogs FOR EACH ROW EXECUTE FUNCTION touch_issue_of_row();
+
 GRANT SELECT, INSERT, UPDATE, DELETE ON comments, attachments, worklogs, saved_filters TO projects_rw;
 
 COMMIT;

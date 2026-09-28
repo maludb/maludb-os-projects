@@ -1,0 +1,1901 @@
+{
+    "generated_from": "docs/business-os-action-manifest.md",
+    "generated_at": "2026-09-28T01:15:30+00:00",
+    "screens": {
+        "dashboard": {
+            "screen": "dashboard",
+            "url": "/",
+            "section": "Home",
+            "when": "their Projects home: their open issues, their projects, the active sprints and how each burns down",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "my-work": {
+            "screen": "my-work",
+            "url": "/my-work",
+            "section": "Home",
+            "when": "everything on their plate across projects — assigned, watching, in review for them",
+            "params": [
+                "state",
+                "project"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "activity": {
+            "screen": "activity",
+            "url": "/activity",
+            "section": "Home",
+            "when": "recent activity in Projects, or one project's or one issue's history",
+            "params": [
+                "project",
+                "entity_type",
+                "entity_id",
+                "period"
+            ],
+            "built": true,
+            "stub": false
+        },
+        "settings": {
+            "screen": "settings",
+            "url": "/settings/",
+            "section": "Home",
+            "when": "the business's Projects defaults: timezone, sprint length, the point scale, the stale threshold, attachment limit, default visibility",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "tokens": {
+            "screen": "tokens",
+            "url": "/settings/tokens/",
+            "section": "Home",
+            "when": "their own access tokens for the two MCP servers",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "projects-list": {
+            "screen": "projects-list",
+            "url": "/projects/",
+            "section": "Projects",
+            "when": "the projects, as cards by department, open or private, active or archived",
+            "params": [
+                "q",
+                "department",
+                "status",
+                "mine"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-view": {
+            "screen": "project-view",
+            "url": "/projects/{key}",
+            "section": "Projects",
+            "when": "one project's overview: lead, team, active sprint, epics with progress, recent activity",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "project-add": {
+            "screen": "project-add",
+            "url": "/projects/new",
+            "section": "Projects",
+            "when": "to create a project",
+            "params": [
+                "name",
+                "key",
+                "department",
+                "lead",
+                "visibility"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-edit": {
+            "screen": "project-edit",
+            "url": "/projects/{key}/edit",
+            "section": "Projects",
+            "when": "to change a project's name, description, department, lead, customer, visibility, board mode or swimlane",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "project-settings": {
+            "screen": "project-settings",
+            "url": "/projects/{key}/settings",
+            "section": "Projects",
+            "when": "a project's workflow, board, labels, components, team and roles, visibility, archive",
+            "params": [
+                "tab"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-backlog": {
+            "screen": "project-backlog",
+            "url": "/projects/{key}/backlog",
+            "section": "Projects",
+            "when": "the backlog in rank order with the next sprints' boxes above it: estimate, rank, move to a sprint",
+            "params": [
+                "epic",
+                "unestimated"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-board": {
+            "screen": "project-board",
+            "url": "/projects/{key}/board",
+            "section": "Projects",
+            "when": "the board: the active sprint by column and swimlane, WIP counts, blocked marks",
+            "params": [
+                "assignee",
+                "epic"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-sprints": {
+            "screen": "project-sprints",
+            "url": "/projects/{key}/sprints",
+            "section": "Projects",
+            "when": "the project's sprints: future, active, closed, with their points",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "project-epics": {
+            "screen": "project-epics",
+            "url": "/projects/{key}/epics",
+            "section": "Projects",
+            "when": "the epics as cards with progress bars",
+            "params": [
+                "status"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-issues": {
+            "screen": "project-issues",
+            "url": "/projects/{key}/issues",
+            "section": "Projects",
+            "when": "the issue table with filters and saved filters",
+            "params": [
+                "q",
+                "type",
+                "status",
+                "category",
+                "assignee",
+                "sprint",
+                "epic",
+                "label",
+                "component",
+                "priority",
+                "unassigned",
+                "blocked",
+                "stale",
+                "filter",
+                "sort"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "project-reports": {
+            "screen": "project-reports",
+            "url": "/projects/{key}/reports",
+            "section": "Projects",
+            "when": "velocity, burndown, cycle time, cumulative flow, scope change",
+            "params": [
+                "report",
+                "sprint",
+                "since"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "issue-view": {
+            "screen": "issue-view",
+            "url": "/issues/{key}",
+            "section": "Issues",
+            "when": "one issue: fields, description, subtasks, links, attachments, checklist, worklogs, comments, history, watch",
+            "params": [
+                "tab"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "issue-add": {
+            "screen": "issue-add",
+            "url": "/issues/new",
+            "section": "Issues",
+            "when": "to create an issue — the type decides the fields",
+            "params": [
+                "project",
+                "type",
+                "parent",
+                "epic",
+                "sprint",
+                "assignee",
+                "summary"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "issue-edit": {
+            "screen": "issue-edit",
+            "url": "/issues/{key}/edit",
+            "section": "Issues",
+            "when": "to change an issue's summary, description, type, priority, points, estimate, assignee, epic, component, labels, due date",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "sprint-view": {
+            "screen": "sprint-view",
+            "url": "/sprints/{id}",
+            "section": "Sprints",
+            "when": "one sprint: goal, dates, burndown, its issues by status, scope changes, and to close it with carry-over",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "sprint-add": {
+            "screen": "sprint-add",
+            "url": "/sprints/new",
+            "section": "Sprints",
+            "when": "to create a sprint in a project",
+            "params": [
+                "project",
+                "name",
+                "goal",
+                "start_date",
+                "end_date"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "sprint-edit": {
+            "screen": "sprint-edit",
+            "url": "/sprints/{id}/edit",
+            "section": "Sprints",
+            "when": "to change a sprint's name, goal or dates",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "epic-view": {
+            "screen": "epic-view",
+            "url": "/epics/{id}",
+            "section": "Epics",
+            "when": "one epic: its summary, progress, and its issues",
+            "params": [],
+            "built": false,
+            "stub": false
+        },
+        "epic-add": {
+            "screen": "epic-add",
+            "url": "/epics/new",
+            "section": "Epics",
+            "when": "to create an epic in a project",
+            "params": [
+                "project",
+                "name",
+                "target_date"
+            ],
+            "built": false,
+            "stub": false
+        },
+        "epic-edit": {
+            "screen": "epic-edit",
+            "url": "/epics/{id}/edit",
+            "section": "Epics",
+            "when": "to change an epic's name, summary, colour, target date or status",
+            "params": [],
+            "built": false,
+            "stub": false
+        }
+    },
+    "actions": {
+        "settings_save": {
+            "action": "settings_save",
+            "section": "Home",
+            "endpoint": "/settings/save.php",
+            "params": [
+                {
+                    "name": "timezone",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "sprint_length_days",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "1 to 60"
+                },
+                {
+                    "name": "point_scale",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "comma-separated numbers"
+                },
+                {
+                    "name": "stale_after_days",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "1 to 90"
+                },
+                {
+                    "name": "attachment_max_bytes",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "default_visibility",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "open or private"
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "settings.save",
+            "who": "admin",
+            "built": false
+        },
+        "token_mint": {
+            "action": "token_mint",
+            "section": "Home",
+            "endpoint": "/settings/tokens/mint.php",
+            "params": [
+                {
+                    "name": "label",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "scope",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "mcp"
+                }
+            ],
+            "undo": "revoke it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "token.mint",
+            "who": "all (own)",
+            "built": false
+        },
+        "token_revoke": {
+            "action": "token_revoke",
+            "section": "Home",
+            "endpoint": "/settings/tokens/revoke.php",
+            "params": [
+                {
+                    "name": "token",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": null,
+            "log_event": "token.revoke",
+            "who": "own",
+            "built": false
+        },
+        "project_create": {
+            "action": "project_create",
+            "section": "Projects",
+            "endpoint": "/projects/save.php",
+            "params": [
+                {
+                    "name": "name",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "key",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "2 to 10 capitals and digits — the prefix of every issue key"
+                },
+                {
+                    "name": "description",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "department",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "lead",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "visibility",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "open or private"
+                },
+                {
+                    "name": "board_mode",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "scrum or kanban"
+                },
+                {
+                    "name": "swimlane",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "none or assignee or epic"
+                },
+                {
+                    "name": "customer",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "archive it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "project.create",
+            "who": "admin",
+            "built": false
+        },
+        "project_update": {
+            "action": "project_update",
+            "section": "Projects",
+            "endpoint": "/projects/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "name",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "key",
+                    "repeated": false,
+                    "hint": "2 to 10 capitals and digits — the prefix of every issue key"
+                },
+                {
+                    "required": false,
+                    "name": "description",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "department",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "lead",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "visibility",
+                    "repeated": false,
+                    "hint": "open or private"
+                },
+                {
+                    "required": false,
+                    "name": "board_mode",
+                    "repeated": false,
+                    "hint": "scrum or kanban"
+                },
+                {
+                    "required": false,
+                    "name": "swimlane",
+                    "repeated": false,
+                    "hint": "none or assignee or epic"
+                },
+                {
+                    "required": false,
+                    "name": "customer",
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "project.update",
+            "who": "admin",
+            "built": false,
+            "partial": true
+        },
+        "project_archive": {
+            "action": "project_archive",
+            "section": "Projects",
+            "endpoint": "/projects/archive.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "reason",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "— (an admin unarchives from the kernel's trail)",
+            "confirm": true,
+            "approval": "deletion",
+            "log_event": "project.archive",
+            "who": "admin",
+            "built": false
+        },
+        "team_add": {
+            "action": "team_add",
+            "section": "Projects",
+            "endpoint": "/projects/team-add.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "member",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "project_role",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "lead or product_owner or scrum_master or member or viewer — default member"
+                }
+            ],
+            "undo": "remove again",
+            "confirm": false,
+            "approval": null,
+            "log_event": "team.add",
+            "who": "admin",
+            "built": false
+        },
+        "team_remove": {
+            "action": "team_remove",
+            "section": "Projects",
+            "endpoint": "/projects/team-remove.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "member",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "add back",
+            "confirm": true,
+            "approval": "other",
+            "log_event": "team.remove",
+            "who": "admin",
+            "built": false
+        },
+        "label_save": {
+            "action": "label_save",
+            "section": "Projects",
+            "endpoint": "/projects/labels/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "name",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "lower-case and hyphens"
+                },
+                {
+                    "name": "colour",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "label",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "to rename or recolour an existing one"
+                }
+            ],
+            "undo": "restore prior / archive new",
+            "confirm": false,
+            "approval": null,
+            "log_event": "label.save",
+            "who": "admin",
+            "built": false
+        },
+        "label_archive": {
+            "action": "label_archive",
+            "section": "Projects",
+            "endpoint": "/projects/labels/archive.php",
+            "params": [
+                {
+                    "name": "label",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore",
+            "confirm": false,
+            "approval": null,
+            "log_event": "label.archive",
+            "who": "admin",
+            "built": false
+        },
+        "component_save": {
+            "action": "component_save",
+            "section": "Projects",
+            "endpoint": "/projects/components/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "name",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "description",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "default_assignee",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "component",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "to change an existing one"
+                }
+            ],
+            "undo": "restore prior / archive new",
+            "confirm": false,
+            "approval": null,
+            "log_event": "component.save",
+            "who": "admin",
+            "built": false
+        },
+        "component_archive": {
+            "action": "component_archive",
+            "section": "Projects",
+            "endpoint": "/projects/components/archive.php",
+            "params": [
+                {
+                    "name": "component",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore",
+            "confirm": false,
+            "approval": null,
+            "log_event": "component.archive",
+            "who": "admin",
+            "built": false
+        },
+        "workflow_save": {
+            "action": "workflow_save",
+            "section": "Projects",
+            "endpoint": "/projects/workflow/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "statuses",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "name:category:order per status comma-separated — categories are todo in_progress done"
+                },
+                {
+                    "name": "transitions",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "from>to per move comma-separated"
+                },
+                {
+                    "name": "initial",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "the status a new issue starts in"
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": true,
+            "approval": "other",
+            "log_event": "workflow.save",
+            "who": "admin",
+            "built": false
+        },
+        "board_save": {
+            "action": "board_save",
+            "section": "Projects",
+            "endpoint": "/projects/board/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "columns",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "name:statuses:wip per column comma-separated — statuses joined with plus"
+                },
+                {
+                    "name": "swimlane",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "none or assignee or epic"
+                },
+                {
+                    "name": "board_mode",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "scrum or kanban"
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": "other",
+            "log_event": "board.save",
+            "who": "sm, admin",
+            "built": false
+        },
+        "issue_create": {
+            "action": "issue_create",
+            "section": "Issues",
+            "endpoint": "/issues/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "summary",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "type",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "story or task or bug — a subtask needs parent"
+                },
+                {
+                    "name": "description",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "priority",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "lowest or low or medium or high or highest"
+                },
+                {
+                    "name": "story_points",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "estimate_hours",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "assignee",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "epic",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "sprint",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "or backlog"
+                },
+                {
+                    "name": "component",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "labels",
+                    "required": false,
+                    "repeated": true,
+                    "hint": ""
+                },
+                {
+                    "name": "due_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "parent",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "makes it a subtask of that issue"
+                }
+            ],
+            "undo": "delete it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.create",
+            "who": "team",
+            "built": false
+        },
+        "issue_update": {
+            "action": "issue_update",
+            "section": "Issues",
+            "endpoint": "/issues/save.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "project",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "summary",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "type",
+                    "repeated": false,
+                    "hint": "story or task or bug — a subtask needs parent"
+                },
+                {
+                    "required": false,
+                    "name": "description",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "priority",
+                    "repeated": false,
+                    "hint": "lowest or low or medium or high or highest"
+                },
+                {
+                    "required": false,
+                    "name": "story_points",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "estimate_hours",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "assignee",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "epic",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "sprint",
+                    "repeated": false,
+                    "hint": "or backlog"
+                },
+                {
+                    "required": false,
+                    "name": "component",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "labels",
+                    "repeated": true,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "due_date",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "parent",
+                    "repeated": false,
+                    "hint": "makes it a subtask of that issue"
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.update",
+            "who": "team",
+            "built": false,
+            "partial": true
+        },
+        "issue_assign": {
+            "action": "issue_assign",
+            "section": "Issues",
+            "endpoint": "/issues/assign.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "assignee",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "a person or an agent — empty unassigns"
+                },
+                {
+                    "name": "note",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.assign",
+            "who": "team",
+            "built": false
+        },
+        "issue_transition": {
+            "action": "issue_transition",
+            "section": "Issues",
+            "endpoint": "/issues/transition.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "status",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "a status of the project's workflow the current one may move to"
+                },
+                {
+                    "name": "resolution",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "done or wont_do or duplicate or cannot_reproduce — when moving to done"
+                }
+            ],
+            "undo": "move back",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.transition",
+            "who": "team",
+            "built": false
+        },
+        "issue_estimate": {
+            "action": "issue_estimate",
+            "section": "Issues",
+            "endpoint": "/issues/estimate.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "story_points",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "empty clears it"
+                },
+                {
+                    "name": "estimate_hours",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.estimate",
+            "who": "po, team",
+            "built": false
+        },
+        "issue_rank": {
+            "action": "issue_rank",
+            "section": "Issues",
+            "endpoint": "/issues/rank.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "before",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "the issue to place it above"
+                },
+                {
+                    "name": "after",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "the issue to place it below — or top or bottom"
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.rank",
+            "who": "po",
+            "built": false
+        },
+        "issue_move_to_sprint": {
+            "action": "issue_move_to_sprint",
+            "section": "Issues",
+            "endpoint": "/issues/sprint.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "sprint",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "a future or the active sprint — or backlog"
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.move_to_sprint",
+            "who": "po, sm",
+            "built": false
+        },
+        "issue_accept": {
+            "action": "issue_accept",
+            "section": "Issues",
+            "endpoint": "/issues/accept.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "a done story"
+                },
+                {
+                    "name": "accepted",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "true or false — false reopens it with a note"
+                },
+                {
+                    "name": "note",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.accept",
+            "who": "po",
+            "built": false
+        },
+        "issue_link": {
+            "action": "issue_link",
+            "section": "Issues",
+            "endpoint": "/issues/link.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "kind",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "blocks or relates or duplicates"
+                },
+                {
+                    "name": "to_issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "unlink",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.link",
+            "who": "team",
+            "built": false
+        },
+        "issue_unlink": {
+            "action": "issue_unlink",
+            "section": "Issues",
+            "endpoint": "/issues/unlink.php",
+            "params": [
+                {
+                    "name": "link",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "link again",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.unlink",
+            "who": "team",
+            "built": false
+        },
+        "issue_move_project": {
+            "action": "issue_move_project",
+            "section": "Issues",
+            "endpoint": "/issues/move.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "the new key is issued and the old kept as an alias"
+                }
+            ],
+            "undo": "move back",
+            "confirm": true,
+            "approval": null,
+            "log_event": "issue.move_project",
+            "who": "admin",
+            "built": false
+        },
+        "issue_delete": {
+            "action": "issue_delete",
+            "section": "Issues",
+            "endpoint": "/issues/delete.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "reason",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": "deletion",
+            "log_event": "issue.delete",
+            "who": "admin",
+            "built": false
+        },
+        "watch": {
+            "action": "watch",
+            "section": "Issues",
+            "endpoint": "/issues/watch.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "unwatch",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.watch",
+            "who": "all",
+            "built": false
+        },
+        "unwatch": {
+            "action": "unwatch",
+            "section": "Issues",
+            "endpoint": "/issues/unwatch.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "watch",
+            "confirm": false,
+            "approval": null,
+            "log_event": "issue.unwatch",
+            "who": "all",
+            "built": false
+        },
+        "comment_add": {
+            "action": "comment_add",
+            "section": "Issues",
+            "endpoint": "/issues/comments/save.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "body",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "delete it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "comment.add",
+            "who": "team, all (a viewer may not)",
+            "built": false
+        },
+        "comment_edit": {
+            "action": "comment_edit",
+            "section": "Issues",
+            "endpoint": "/issues/comments/save.php",
+            "params": [
+                {
+                    "name": "comment",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "body",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "comment.edit",
+            "who": "own",
+            "built": false
+        },
+        "comment_delete": {
+            "action": "comment_delete",
+            "section": "Issues",
+            "endpoint": "/issues/comments/delete.php",
+            "params": [
+                {
+                    "name": "comment",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": "deletion",
+            "log_event": "comment.delete",
+            "who": "own, admin",
+            "built": false
+        },
+        "checklist_add": {
+            "action": "checklist_add",
+            "section": "Issues",
+            "endpoint": "/issues/checklist/save.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "text",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "delete it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "checklist_item.add",
+            "who": "team",
+            "built": false
+        },
+        "checklist_toggle": {
+            "action": "checklist_toggle",
+            "section": "Issues",
+            "endpoint": "/issues/checklist/toggle.php",
+            "params": [
+                {
+                    "name": "checklist_item",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "toggle back",
+            "confirm": false,
+            "approval": null,
+            "log_event": "checklist_item.toggle",
+            "who": "team",
+            "built": false
+        },
+        "checklist_delete": {
+            "action": "checklist_delete",
+            "section": "Issues",
+            "endpoint": "/issues/checklist/delete.php",
+            "params": [
+                {
+                    "name": "checklist_item",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "add back",
+            "confirm": false,
+            "approval": null,
+            "log_event": "checklist_item.delete",
+            "who": "team",
+            "built": false
+        },
+        "worklog_add": {
+            "action": "worklog_add",
+            "section": "Issues",
+            "endpoint": "/issues/worklogs/save.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "hours",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "up to 24"
+                },
+                {
+                    "name": "worked_on",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "a date — default today"
+                },
+                {
+                    "name": "note",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "delete it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "worklog.add",
+            "who": "team",
+            "built": false
+        },
+        "worklog_delete": {
+            "action": "worklog_delete",
+            "section": "Issues",
+            "endpoint": "/issues/worklogs/delete.php",
+            "params": [
+                {
+                    "name": "worklog",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "add back",
+            "confirm": false,
+            "approval": null,
+            "log_event": "worklog.delete",
+            "who": "own, admin",
+            "built": false
+        },
+        "attachment_add": {
+            "action": "attachment_add",
+            "section": "Issues",
+            "endpoint": "/issues/attachments/save.php",
+            "params": [
+                {
+                    "name": "issue",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "file",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "the screen's upload — never by an agent"
+                }
+            ],
+            "undo": "delete it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "attachment.add",
+            "who": "team",
+            "built": false
+        },
+        "attachment_delete": {
+            "action": "attachment_delete",
+            "section": "Issues",
+            "endpoint": "/issues/attachments/delete.php",
+            "params": [
+                {
+                    "name": "attachment",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": "deletion",
+            "log_event": "attachment.delete",
+            "who": "own, admin",
+            "built": false
+        },
+        "sprint_create": {
+            "action": "sprint_create",
+            "section": "Sprints",
+            "endpoint": "/sprints/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "name",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "goal",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "start_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "end_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "delete it while future",
+            "confirm": false,
+            "approval": null,
+            "log_event": "sprint.create",
+            "who": "po, sm",
+            "built": false
+        },
+        "sprint_update": {
+            "action": "sprint_update",
+            "section": "Sprints",
+            "endpoint": "/sprints/save.php",
+            "params": [
+                {
+                    "name": "sprint",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "name",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "goal",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "start_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "end_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "sprint.update",
+            "who": "po, sm",
+            "built": false
+        },
+        "sprint_start": {
+            "action": "sprint_start",
+            "section": "Sprints",
+            "endpoint": "/sprints/start.php",
+            "params": [
+                {
+                    "name": "sprint",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "a future one — records the commitment"
+                },
+                {
+                    "name": "start_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "end_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "— (the commitment is recorded)",
+            "confirm": true,
+            "approval": "other",
+            "log_event": "sprint.start",
+            "who": "sm",
+            "built": false
+        },
+        "sprint_close": {
+            "action": "sprint_close",
+            "section": "Sprints",
+            "endpoint": "/sprints/close.php",
+            "params": [
+                {
+                    "name": "sprint",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "the active one — records what was done"
+                },
+                {
+                    "name": "carry_to",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "the future sprint the unfinished go to — or backlog"
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": "other",
+            "log_event": "sprint.close",
+            "who": "sm",
+            "built": false
+        },
+        "sprint_delete": {
+            "action": "sprint_delete",
+            "section": "Sprints",
+            "endpoint": "/sprints/delete.php",
+            "params": [
+                {
+                    "name": "sprint",
+                    "required": true,
+                    "repeated": false,
+                    "hint": "a future sprint with no issues"
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": "deletion",
+            "log_event": "sprint.delete",
+            "who": "sm, admin",
+            "built": false
+        },
+        "epic_create": {
+            "action": "epic_create",
+            "section": "Epics",
+            "endpoint": "/epics/save.php",
+            "params": [
+                {
+                    "name": "project",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "name",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "summary",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "colour",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "target_date",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "close it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "epic.create",
+            "who": "po",
+            "built": false
+        },
+        "epic_update": {
+            "action": "epic_update",
+            "section": "Epics",
+            "endpoint": "/epics/save.php",
+            "params": [
+                {
+                    "name": "epic",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "project",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "name",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "summary",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "colour",
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "required": false,
+                    "name": "target_date",
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": "restore prior",
+            "confirm": false,
+            "approval": null,
+            "log_event": "epic.update",
+            "who": "po",
+            "built": false,
+            "partial": true
+        },
+        "epic_close": {
+            "action": "epic_close",
+            "section": "Epics",
+            "endpoint": "/epics/close.php",
+            "params": [
+                {
+                    "name": "epic",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "status",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "done or cancelled — default done"
+                }
+            ],
+            "undo": "reopen",
+            "confirm": false,
+            "approval": null,
+            "log_event": "epic.close",
+            "who": "po",
+            "built": false
+        },
+        "filter_save": {
+            "action": "filter_save",
+            "section": "Saved filters",
+            "endpoint": "/filters/save.php",
+            "params": [
+                {
+                    "name": "name",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "project",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "empty = across projects"
+                },
+                {
+                    "name": "filter",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "the issues screen's query string"
+                },
+                {
+                    "name": "is_shared",
+                    "required": false,
+                    "repeated": false,
+                    "hint": ""
+                },
+                {
+                    "name": "saved_filter",
+                    "required": false,
+                    "repeated": false,
+                    "hint": "to change an existing one"
+                }
+            ],
+            "undo": "delete it",
+            "confirm": false,
+            "approval": null,
+            "log_event": "saved_filter.save",
+            "who": "all (own)",
+            "built": false
+        },
+        "filter_delete": {
+            "action": "filter_delete",
+            "section": "Saved filters",
+            "endpoint": "/filters/delete.php",
+            "params": [
+                {
+                    "name": "saved_filter",
+                    "required": true,
+                    "repeated": false,
+                    "hint": ""
+                }
+            ],
+            "undo": null,
+            "confirm": true,
+            "approval": "deletion",
+            "log_event": "saved_filter.delete",
+            "who": "own",
+            "built": false
+        }
+    }
+}

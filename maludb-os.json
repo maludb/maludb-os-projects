@@ -8,30 +8,53 @@
   "icon": "feather-trello",
   "version": "0.1.0",
   "criticality": "medium",
-
   "vhost": {
     "label": "projects",
     "document_root": "html",
     "internal_port_env": "APP_INTERNAL_PORT"
   },
-
   "database": {
     "suffix": "projects",
     "migrations": "db",
-    "roles": { "rw": "projects_rw", "records_ro": "projects_records_ro", "activity_ro": "projects_activity_ro" }
+    "roles": {
+      "rw": "projects_rw",
+      "records_ro": "projects_records_ro",
+      "activity_ro": "projects_activity_ro"
+    }
   },
-
   "env": {
-    "required": ["APP_NAME", "APP_URL", "DB_HOST", "DB_PORT", "DB_NAME", "DB_USER", "DB_PASSWORD",
-                 "MCP_RECORDS_DB_USER", "MCP_RECORDS_DB_PASSWORD",
-                 "MCP_ACTIVITY_DB_USER", "MCP_ACTIVITY_DB_PASSWORD",
-                 "MCP_RECORDS_PORT", "MCP_ACTIVITY_PORT", "APP_INTERNAL_PORT",
-                 "ACTION_TOKEN_KEY", "ACTIONS_RELAY_KEY",
-                 "OS_APPLICATION_TOKEN", "OS_INTERNAL_URL", "OS_LAUNCHER_URL", "APP_KEY",
-                 "MALUDB_API_URL", "MALUDB_API_TOKEN"],
-    "optional": ["MALUMAIL_API_KEY", "MAIL_FROM", "MAIL_FROM_NAME", "API_CORS_ORIGINS", "ATTACHMENT_MAX_BYTES"]
+    "required": [
+      "APP_NAME",
+      "APP_URL",
+      "DB_HOST",
+      "DB_PORT",
+      "DB_NAME",
+      "DB_USER",
+      "DB_PASSWORD",
+      "MCP_RECORDS_DB_USER",
+      "MCP_RECORDS_DB_PASSWORD",
+      "MCP_ACTIVITY_DB_USER",
+      "MCP_ACTIVITY_DB_PASSWORD",
+      "MCP_RECORDS_PORT",
+      "MCP_ACTIVITY_PORT",
+      "APP_INTERNAL_PORT",
+      "ACTION_TOKEN_KEY",
+      "ACTIONS_RELAY_KEY",
+      "OS_APPLICATION_TOKEN",
+      "OS_INTERNAL_URL",
+      "OS_LAUNCHER_URL",
+      "APP_KEY",
+      "MALUDB_API_URL",
+      "MALUDB_API_TOKEN"
+    ],
+    "optional": [
+      "MALUMAIL_API_KEY",
+      "MAIL_FROM",
+      "MAIL_FROM_NAME",
+      "API_CORS_ORIGINS",
+      "ATTACHMENT_MAX_BYTES"
+    ]
   },
-
   "services": [
     "deploy/projects-records-mcp.service",
     "deploy/projects-activity-mcp.service",
@@ -40,44 +63,117 @@
     "deploy/projects-directory-sync.service",
     "deploy/projects-directory-sync.timer"
   ],
-
   "endpoints": [
-    { "name": "Records MCP",  "kind": "mcp", "path": "/mcp/records",  "port_env": "MCP_RECORDS_PORT",
-      "auth_kind": "bearer", "agent_reachable": true,  "mcp_surface_version": "1.0" },
-    { "name": "Activity MCP", "kind": "mcp", "path": "/mcp/activity", "port_env": "MCP_ACTIVITY_PORT",
-      "auth_kind": "bearer", "agent_reachable": true,  "mcp_surface_version": "1.0" },
-    { "name": "Web UI",       "kind": "ui",  "path": "/",             "auth_kind": "none",
-      "agent_reachable": false },
-    { "name": "Health",       "kind": "http_api", "path": "/api/v1/health", "auth_kind": "none",
-      "agent_reachable": false }
+    {
+      "name": "Records MCP",
+      "kind": "mcp",
+      "path": "/mcp/records",
+      "port_env": "MCP_RECORDS_PORT",
+      "auth_kind": "bearer",
+      "agent_reachable": true,
+      "mcp_surface_version": "1.0"
+    },
+    {
+      "name": "Activity MCP",
+      "kind": "mcp",
+      "path": "/mcp/activity",
+      "port_env": "MCP_ACTIVITY_PORT",
+      "auth_kind": "bearer",
+      "agent_reachable": true,
+      "mcp_surface_version": "1.0"
+    },
+    {
+      "name": "Web UI",
+      "kind": "ui",
+      "path": "/",
+      "auth_kind": "none",
+      "agent_reachable": false
+    },
+    {
+      "name": "Health",
+      "kind": "http_api",
+      "path": "/api/v1/health",
+      "auth_kind": "none",
+      "agent_reachable": false
+    }
   ],
-
   "actions": {
     "manifest": "docs/projects-action-manifest.md",
     "registry": "mcp/action_registry.json",
     "base_url_env": "APP_INTERNAL_PORT"
   },
-
-  "skills": ["skills/projects-basics", "skills/sprint-planning", "skills/sprint-close", "skills/backlog-triage"],
-
-  "sso": { "path": "/sso", "logout_path": "/sso/logout" },
-  "directory": { "reads": true, "writes": false },
-  "assistant": { "command_bar": true, "agent": "expert" },
-
+  "skills": [
+    "skills/projects-basics",
+    "skills/sprint-planning",
+    "skills/sprint-close",
+    "skills/backlog-triage"
+  ],
+  "sso": {
+    "path": "/sso",
+    "logout_path": "/sso/logout"
+  },
+  "directory": {
+    "reads": true,
+    "writes": false
+  },
+  "assistant": {
+    "command_bar": true,
+    "agent": "expert"
+  },
   "agents": [
     {
       "key": "expert",
       "job_description": "os/expert.md",
       "access_capability": "write",
       "tool_grants": {
-        "Records MCP": ["find_projects", "get_project", "find_issues", "get_issue", "backlog", "board", "sprint_status",
-                        "burndown", "velocity", "cycle_time", "sprint_scope_changes", "epic_progress", "blocked_issues",
-                        "workload", "my_work", "hygiene", "worklogs", "records_search"],
-        "Activity MCP": ["issue_history", "who_did", "project_activity", "sprint_events"],
-        "Actions MCP": ["issue_create", "issue_update", "issue_assign", "issue_transition", "issue_estimate",
-                        "comment_add", "watch", "unwatch", "checklist_add", "checklist_toggle", "worklog_add"]
+        "Records MCP": [
+          "find_projects",
+          "get_project",
+          "find_issues",
+          "get_issue",
+          "backlog",
+          "board",
+          "sprint_status",
+          "burndown",
+          "velocity",
+          "cycle_time",
+          "sprint_scope_changes",
+          "epic_progress",
+          "blocked_issues",
+          "workload",
+          "my_work",
+          "hygiene",
+          "worklogs",
+          "records_search",
+          "find_members",
+          "find_departments"
+        ],
+        "Activity MCP": [
+          "issue_history",
+          "who_did",
+          "project_activity",
+          "sprint_events"
+        ],
+        "Actions MCP": [
+          "issue_create",
+          "issue_update",
+          "issue_assign",
+          "issue_transition",
+          "issue_estimate",
+          "comment_add",
+          "watch",
+          "unwatch",
+          "checklist_add",
+          "checklist_toggle",
+          "worklog_add"
+        ]
       },
-      "skills": ["skills/projects-basics", "skills/sprint-planning", "skills/sprint-close", "skills/backlog-triage"]
+      "skills": [
+        "skills/projects-basics",
+        "skills/sprint-planning",
+        "skills/sprint-close",
+        "skills/backlog-triage"
+      ]
     },
     {
       "key": "scrum_master",
@@ -85,24 +181,91 @@
       "access_capability": "write",
       "hired_on_install": true,
       "tool_grants": {
-        "Records MCP": ["find_projects", "get_project", "find_issues", "backlog", "board", "sprint_status", "burndown",
-                        "velocity", "sprint_scope_changes", "blocked_issues", "workload", "hygiene"],
-        "Activity MCP": ["issue_history", "project_activity", "sprint_events"],
-        "Actions MCP": ["issue_update", "issue_assign", "issue_transition", "issue_move_to_sprint", "comment_add",
-                        "sprint_create", "sprint_start", "sprint_close", "sprint_update"]
+        "Records MCP": [
+          "find_projects",
+          "get_project",
+          "find_issues",
+          "backlog",
+          "board",
+          "sprint_status",
+          "burndown",
+          "velocity",
+          "sprint_scope_changes",
+          "blocked_issues",
+          "workload",
+          "hygiene",
+          "find_members",
+          "find_departments"
+        ],
+        "Activity MCP": [
+          "issue_history",
+          "project_activity",
+          "sprint_events"
+        ],
+        "Actions MCP": [
+          "issue_update",
+          "issue_assign",
+          "issue_transition",
+          "issue_move_to_sprint",
+          "comment_add",
+          "sprint_create",
+          "sprint_start",
+          "sprint_close",
+          "sprint_update"
+        ]
       },
-      "skills": ["skills/projects-basics", "skills/sprint-planning", "skills/sprint-close", "skills/backlog-triage"]
+      "skills": [
+        "skills/projects-basics",
+        "skills/sprint-planning",
+        "skills/sprint-close",
+        "skills/backlog-triage"
+      ]
     }
   ],
-
   "approvals": [
-    { "action": "project_archive", "category": "deletion" },
-    { "action": "issue_delete", "category": "deletion" },
-    { "action": "comment_delete", "category": "deletion" },
-    { "action": "team_remove", "category": "other" },
-    { "action": "sprint_start", "category": "other" },
-    { "action": "sprint_close", "category": "other" },
-    { "action": "workflow_save", "category": "other" },
-    { "action": "board_save", "category": "other" }
+    {
+      "action": "project_archive",
+      "category": "deletion"
+    },
+    {
+      "action": "issue_delete",
+      "category": "deletion"
+    },
+    {
+      "action": "comment_delete",
+      "category": "deletion"
+    },
+    {
+      "action": "team_remove",
+      "category": "other"
+    },
+    {
+      "action": "sprint_start",
+      "category": "other"
+    },
+    {
+      "action": "sprint_close",
+      "category": "other"
+    },
+    {
+      "action": "workflow_save",
+      "category": "other"
+    },
+    {
+      "action": "board_save",
+      "category": "other"
+    },
+    {
+      "action": "attachment_delete",
+      "category": "deletion"
+    },
+    {
+      "action": "sprint_delete",
+      "category": "deletion"
+    },
+    {
+      "action": "filter_delete",
+      "category": "deletion"
+    }
   ]
 }

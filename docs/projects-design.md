@@ -312,4 +312,12 @@ two for K3–K4.
   sees the open project and not the private one, the agent sees the open project and its issues, a member with
   no capability sees nothing, the super-admin sees both; the records role is refused every base table; the
   activity role sees the trail and the summary views and is refused the comments view and `activity_log`.
-  Awaiting the checkpoint.
+  Then, from the documents' review: `projects_move_issue()` (a new key, the old an alias, subtasks along),
+  `workflow_statuses.is_review`, and a comment, attachment or worklog touching its issue — re-applied clean
+  from scratch and proven. **Phase 1 written the same day**: `docs/projects-mcp-tool-surface.md` (22 records
+  tools + `app_roles`, 5 activity tools, every question 1–24 mapped, the resolution table),
+  `docs/projects-action-manifest.md` (25 screens, 48 actions; `mcp/action_registry.json` builds and
+  `--check` answers OK), eight slice specs in `docs/build-specs/` with `projects-issues.md` as the exemplar
+  (charts decided as hand-drawn SVG in PHP; SortableJS vendored for the board and the backlog), `maludb-os.json`
+  with eleven approval categories. **Awaiting the checkpoint: the owner approves the schema, the tool surface,
+  the manifest and the slice specs together before any PHP.**

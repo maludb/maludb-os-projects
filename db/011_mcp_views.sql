@@ -94,7 +94,7 @@ SELECT t.project_id, p.key AS project_key, t.member_id, m.display_name, m.member
  WHERE projects_can_see_project(t.project_id);
 
 CREATE OR REPLACE VIEW mcp_workflow_statuses WITH (security_barrier = true) AS
-SELECT s.id AS status_id, s.project_id, s.name, s.category, s.sort_order, s.is_initial, s.archived_at,
+SELECT s.id AS status_id, s.project_id, s.name, s.category, s.sort_order, s.is_initial, s.is_review, s.archived_at,
        (SELECT array_agg(t.to_status_id) FROM workflow_transitions t WHERE t.from_status_id = s.id) AS can_move_to
   FROM workflow_statuses s WHERE projects_can_see_project(s.project_id);
 
@@ -139,7 +139,7 @@ SELECT e.id AS scope_event_id, e.sprint_id, e.issue_id, i.key AS issue_key, i.su
 -- Issues: the list's columns; the description travels only on the single-issue read.
 CREATE OR REPLACE VIEW mcp_issues WITH (security_barrier = true) AS
 SELECT i.id AS issue_id, i.key, i.project_id, p.key AS project_key, p.name AS project_name, i.number, i.type, i.summary,
-       i.status_id, s.name AS status, s.category AS status_category, i.resolution, i.priority, i.story_points, i.estimate_hours,
+       i.status_id, s.name AS status, s.category AS status_category, s.is_review AS in_review, i.resolution, i.priority, i.story_points, i.estimate_hours,
        i.assignee_member_id, a.display_name AS assignee_name, a.member_kind AS assignee_kind,
        i.reporter_member_id, r.display_name AS reporter_name,
        i.parent_issue_id, pi.key AS parent_key, i.epic_id, e.name AS epic_name, i.sprint_id, sp.name AS sprint_name, sp.state AS sprint_state,

@@ -51,6 +51,7 @@ CREATE TABLE workflow_statuses (
     category     text NOT NULL CHECK (category IN ('todo', 'in_progress', 'done')),
     sort_order   integer NOT NULL DEFAULT 0,
     is_initial   boolean NOT NULL DEFAULT false,                    -- where a new issue lands (exactly one per project)
+    is_review    boolean NOT NULL DEFAULT false,                    -- "in review for me" (question 15) keys on this, not on a name
     archived_at  timestamptz,
     UNIQUE (project_id, name)
 );

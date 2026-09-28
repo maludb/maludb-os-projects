@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Mint an access token for a mirror member (the Tokens screen does the same in Phase 4).
  *   php bin/mint_mcp_token.php --member 1 --label "Claude Desktop" [--scope mcp|api]
  * Prints the raw token ONCE. `mcp` connects a person's own AI to /mcp/records and /mcp/activity;
- * `api` reads /api/v1/pay-runs (the accounting application's token).
+ * `api` is for a token API this application does not yet have (Projects exposes only /api/v1/health).
  */
 if (PHP_SAPI !== 'cli') { fwrite(STDERR, "CLI only.\n"); exit(1); }
 require_once dirname(__DIR__) . '/app/bootstrap.php';
@@ -26,4 +26,4 @@ $pdo->prepare('INSERT INTO mcp_access_tokens (member_id, label, token_hash, scop
     ->execute(['m' => $memberId, 'l' => $label, 'h' => hash('sha256', $raw), 's' => $scope]);
 log_activity($pdo, 'token.mint', 'mcp_access_token', null, ['actor_member_id' => $memberId, 'after' => ['label' => $label, 'scope' => $scope]]);
 echo "{$scope} access token for {$member['display_name']} (\"{$label}\") — shown once:\n\n  {$raw}\n\n";
-echo $scope === 'api' ? "  " . app_url('/api/v1/pay-runs') . "\n" : "  " . app_url('/mcp/records') . "\n  " . app_url('/mcp/activity') . "\n";
+echo $scope === 'api' ? "  " . app_url('/api/v1/') . "\n" : "  " . app_url('/mcp/records') . "\n  " . app_url('/mcp/activity') . "\n";

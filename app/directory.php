@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * The directory mirror (sign-on-and-directory.md §3–4). Rows are written ONLY from a hand-off
  * token's claims, from the change feed (bin/directory_sync.php), or from the kernel's answer to a
- * write HR made as the acting person — never from a form.
+ * write Projects made as the acting person — never from a form.
  */
 
 class DirectoryRefused extends RuntimeException
@@ -91,20 +91,20 @@ function mirror_apply_member(PDO $pdo, array $m, ?string $capability = null, boo
 }
 
 /**
- * The HR roles the kernel says a member holds (claims.roles, feed access[].roles — kernel db/145).
- * Only roles HR offers are kept; the rights they give are HR's own (hr_role_rights, db/012).
+ * The Projects roles the kernel says a member holds (claims.roles, feed access[].roles — kernel db/145).
+ * Only roles Projects offers are kept; the rights they give are Projects's own (projects_role_rights, db/005).
  */
 function mirror_apply_roles(PDO $pdo, int $memberId, array $roles): void
 {
-    $known = $pdo->query('SELECT role_key FROM hr_roles')->fetchAll(PDO::FETCH_COLUMN);
+    $known = $pdo->query('SELECT role_key FROM projects_roles')->fetchAll(PDO::FETCH_COLUMN);
     $keep = array_values(array_intersect(array_unique(array_map('strval', $roles)), $known));
     $pdo->prepare('UPDATE members SET roles = CAST(:roles AS text[]), synced_at = now() WHERE id = :id')
         ->execute(['roles' => '{' . implode(',', $keep) . '}', 'id' => $memberId]);
 }
 
 /**
- * One access[] row of the change feed (kernel db/141, db/145): the member's whole holding on HR. It
- * replaces their capability and roles; a member left holding nothing loses HR and every session here.
+ * One access[] row of the change feed (kernel db/141, db/145): the member's whole holding on Projects. It
+ * replaces their capability and roles; a member left holding nothing loses Projects and every session here.
  * A member the mirror does not know is ignored — the directory rows introduce people.
  */
 function mirror_apply_access(PDO $pdo, array $a): bool
@@ -230,7 +230,7 @@ function mirror_apply_feed(PDO $pdo, array $doc): array
         mirror_apply_membership($pdo, $dm);
         $counts['memberships']++;
     }
-    // What each affected member now holds on HR — capability and roles (kernel db/141, db/145).
+    // What each affected member now holds on Projects — capability and roles (kernel db/141, db/145).
     $counts['access'] = 0;
     foreach ($doc['access'] ?? [] as $a) {
         $counts['access'] += mirror_apply_access($pdo, $a) ? 1 : 0;

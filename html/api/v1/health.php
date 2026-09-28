@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
-
 /** GET /api/v1/health — unauthenticated; the kernel's health check and the installer's monitor read it. */
 require_once dirname(__DIR__, 3) . '/app/api/bootstrap.php';
-
 api_cors();
 api_require_get();
 $out = ['ok' => true, 'application' => app_key(), 'version' => '0.1.0', 'database' => 'ok', 'maludb' => 'unconfigured', 'ingest_lag' => null, 'directory' => null];

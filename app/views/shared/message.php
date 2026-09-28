@@ -21,7 +21,7 @@
                     <div class="card-body p-sm-5 text-center">
                         <h4 class="fw-bold mb-3" id="message-title"><?= e($title ?? '') ?></h4>
                         <p class="text-muted" id="message-text"><?= e($message ?? '') ?></p>
-                        <a href="/" class="btn btn-primary mt-2" id="message-home-btn">Back to HR</a>
+                        <a href="/" class="btn btn-primary mt-2" id="message-home-btn">Back to Projects</a>
                     </div>
                 </div>
             </div>

@@ -1,8 +1,8 @@
-"""Shared runner for HR's read MCP servers: bearer-auth ASGI middleware, the kernel's run-facts
+"""Shared runner for Projects' read MCP servers: bearer-auth ASGI middleware, the kernel's run-facts
 gate for agents, and the uvicorn launch (mcp-and-api.md §1, agents.md).
 
 A person's token sees every tool (row visibility does the scoping). An AGENT presents the
-tenant's run token; HR cannot read the kernel's grants, so it asks the kernel's run-facts call
+tenant's run token; Projects cannot read the kernel's grants, so it asks the kernel's run-facts call
 once per run (cached) and offers exactly the tools the kernel names for THIS endpoint. A token
 the kernel does not vouch for lists and calls nothing — fail closed. An evaluation run may read.
 """
@@ -20,7 +20,7 @@ from mcp.server.fastmcp.exceptions import ToolError
 
 import db
 
-log = logging.getLogger("hr_mcp")
+log = logging.getLogger("projects_mcp")
 
 # What the kernel's own token may reach (kernel db/145): the roles catalogue, nothing with rows in it.
 KERNEL_TOOLS = {"app_roles"}

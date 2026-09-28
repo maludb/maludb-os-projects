@@ -1,4 +1,4 @@
-"""Activity-memory ingestion bridge: HR activity_log -> the tenant's MaluDB episodes.
+"""Activity-memory ingestion bridge: Projects activity_log -> the tenant's MaluDB episodes.
 
 Copied from the kernel (memory.md §2); the one difference is the payload key
 "application": "projects", first, so recall knows which application an episode came from.
@@ -32,7 +32,7 @@ def _episode_body(row: dict) -> dict:
     actor = f"member #{row['actor_member_id']}" if row["actor_member_id"] else "system"
     title = f"{action} by {actor}"
     payload = {
-        "application": ENV.get("APP_KEY", "hr"),
+        "application": ENV.get("APP_KEY", "projects"),
         "activity_log_id": row["id"],
         "actor_member_id": row["actor_member_id"],
         "source": row["source"],
@@ -70,7 +70,7 @@ async def main() -> int:
     con = await asyncpg.connect(
         host=ENV.get("DB_HOST", "127.0.0.1"),
         port=int(ENV.get("DB_PORT", "5432")),
-        database=ENV.get("DB_NAME", "hr"),
+        database=ENV.get("DB_NAME", "subello_projects"),
         user=ENV.get("DB_USER", "projects_rw"),
         password=ENV.get("DB_PASSWORD", ""),
     )

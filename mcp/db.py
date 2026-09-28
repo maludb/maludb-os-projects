@@ -1,4 +1,4 @@
-"""Shared DB helpers for HR's read MCP servers (copied from the kernel, mcp-and-api.md §1).
+"""Shared DB helpers for Projects's read MCP servers (copied from the kernel, mcp-and-api.md §1).
 
 Each server connects with its own read-only role (projects_records_ro / projects_activity_ro),
 which can touch nothing but the mcp_* views and the mcp_resolve_token() function. A bearer

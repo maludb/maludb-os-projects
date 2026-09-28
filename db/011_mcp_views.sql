@@ -226,5 +226,6 @@ GRANT SELECT ON mcp_members, mcp_departments, mcp_department_members, mcp_projec
     mcp_checklist_items, mcp_comments, mcp_attachments, mcp_worklogs, mcp_saved_filters, mcp_projects_settings
     TO projects_rw, projects_records_ro;
 GRANT SELECT ON mcp_activity_log, mcp_members, mcp_departments, mcp_projects, mcp_issues, mcp_sprints TO projects_activity_ro;
+GRANT SELECT ON mcp_activity_log TO projects_rw;   -- the /activity screen reads the same trail the activity server does
 
 COMMIT;

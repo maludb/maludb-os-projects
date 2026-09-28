@@ -7,7 +7,7 @@ declare(strict_types=1);
  * A person arrives with the kernel's hand-off token (html/sso.php) and holds a session listed in
  * member_sessions; an agent or the kernel's actions server arrives with the tenant's signed action
  * token. The verifiers are the kernel's own (app/auth.php there, A3/A7), copied so one key signs
- * everything across the estate. Gates mirror the SQL rules (db/001, db/005, db/009).
+ * everything across the estate. Gates mirror the SQL rules (db/001, db/005, db/011).
  */
 
 // ---- session accessors --------------------------------------------------------------------
@@ -88,7 +88,7 @@ function end_session(PDO $pdo, string $by): void
     }
 }
 
-/** End every session HR holds for a member (the kernel's sign-out notice). Returns how many. */
+/** End every session Projects holds for a member (the kernel's sign-out notice). Returns how many. */
 function end_member_sessions(PDO $pdo, int $memberId, string $by): int
 {
     $st = $pdo->prepare('UPDATE member_sessions SET ended_at = now(), ended_by = :by WHERE member_id = :m AND ended_at IS NULL');
@@ -107,24 +107,18 @@ function require_login(): void
     }
 }
 
-function hr_is_staff(): bool
+/** Runs Projects: the super-admin, or a human holding project.admin (db/005). */
+function is_projects_admin(): bool
 {
     static $v = null;
-    return $v ??= db_bool(db(), 'SELECT hr_is_staff()');
+    return $v ??= db_bool(db(), 'SELECT projects_is_admin()');
 }
 
-/** A right one of the member's roles gives inside HR (db/012; roles from the kernel's claims and feed). */
+/** A right one of the member's roles gives business-wide (db/005; roles from the kernel's claims and feed). */
 function has_right(string $right): bool
 {
     static $cache = [];
     return $cache[$right] ??= db_bool(db(), 'SELECT projects_has_right(:r)', ['r' => $right]);
-}
-
-/** Pay runs and pay changes: Payroll or HR staff (hr_can_run_pay(), db/012). */
-function can_run_pay(): bool
-{
-    static $v = null;
-    return $v ??= db_bool(db(), 'SELECT hr_can_run_pay()');
 }
 
 function is_super_admin(): bool
@@ -149,19 +143,25 @@ function can_admin_member(int $memberId): bool
     return db_bool(db(), 'SELECT app_can_admin_member(:m)', ['m' => $memberId]);
 }
 
-function is_manager_of(int $memberId): bool
+/** The one visibility rule (db/011): open + project.read, the team, the department's admin, a Projects admin. */
+function can_see_project(int $projectId): bool
 {
-    return db_bool(db(), 'SELECT hr_is_manager_of(:m)', ['m' => $memberId]);
+    static $cache = [];
+    return $cache[$projectId] ??= db_bool(db(), 'SELECT projects_can_see_project(:p)', ['p' => $projectId]);
 }
 
-function can_see_person(int $memberId): bool
+/** May change the project's work: the team with a working role, issue.write, an agent, an admin (db/011). */
+function can_work(int $projectId): bool
 {
-    return db_bool(db(), 'SELECT hr_can_see_person(:m)', ['m' => $memberId]);
+    static $cache = [];
+    return $cache[$projectId] ??= db_bool(db(), 'SELECT projects_can_work(:p)', ['p' => $projectId]);
 }
 
-function can_see_pay(int $memberId): bool
+/** A right inside a project: business-wide, or from the project role (db/011). */
+function has_right_in(string $right, int $projectId): bool
 {
-    return db_bool(db(), 'SELECT hr_can_see_pay(:m)', ['m' => $memberId]);
+    static $cache = [];
+    return $cache[$right . '#' . $projectId] ??= db_bool(db(), 'SELECT projects_has_right_in(:r, :p)', ['r' => $right, 'p' => $projectId]);
 }
 
 /** A human at the keyboard or an agent under a token — never an agent on a person-only screen. */
@@ -172,19 +172,11 @@ function require_human(): void
     }
 }
 
-function require_hr(): void
+function require_admin(): void
 {
     require_login();
-    if (!hr_is_staff()) {
-        refuse(403, 'This needs the HR Admin role in HR, or the super-admin.');
-    }
-}
-
-function require_pay(): void
-{
-    require_login();
-    if (!can_run_pay()) {
-        refuse(403, 'This needs the Payroll or HR Admin role in HR, or the super-admin.');
+    if (!is_projects_admin()) {
+        refuse(403, 'This needs the Projects Admin role, or the super-admin.');
     }
 }
 
@@ -199,24 +191,39 @@ function require_super(): void
 function require_admin_of(int $departmentId): void
 {
     require_login();
-    if (!hr_is_staff() && !is_admin_of($departmentId)) {
-        refuse(403, 'This needs an administrator of that department, or HR staff.');
+    if (!is_projects_admin() && !is_admin_of($departmentId)) {
+        refuse(403, 'This needs an administrator of that department, or a Projects admin.');
     }
 }
 
-function require_can_admin_member(int $memberId): void
+/** A project the member may not see does not exist to them — the same sentence for a private one. */
+function require_can_see_project(int $projectId): void
 {
     require_login();
-    if (!hr_is_staff() && !can_admin_member($memberId)) {
-        refuse(403, 'You do not administer this person.');
+    if (!can_see_project($projectId)) {
+        refuse(404, 'Project not found.');
     }
 }
 
-function require_own_or_hr(int $memberId): void
+function require_can_work(int $projectId): void
 {
-    require_login();
-    if ($memberId !== current_member_id() && !hr_is_staff()) {
-        refuse(403, 'This is the person\'s own, or HR staff\'s.');
+    require_can_see_project($projectId);
+    if (!can_work($projectId)) {
+        refuse(403, 'You are not on this project\'s team.');
+    }
+}
+
+const RIGHT_WORDS = [
+    'project.read' => 'see this project', 'issue.write' => 'edit issues', 'comment.write' => 'comment', 'board.move' => 'move issues on the board',
+    'worklog.write' => 'log hours', 'backlog.rank' => 'rank the backlog', 'sprint.plan' => 'plan sprints', 'issue.accept' => 'accept stories',
+    'epic.write' => 'keep epics', 'sprint.run' => 'start and close sprints', 'board.configure' => 'change the board', 'project.admin' => 'administer this project',
+];
+
+function require_right_in(string $right, int $projectId): void
+{
+    require_can_see_project($projectId);
+    if (!has_right_in($right, $projectId)) {
+        refuse(403, 'You may not ' . (RIGHT_WORDS[$right] ?? str_replace(['.', '_'], ' ', $right)) . ' here.');
     }
 }
 

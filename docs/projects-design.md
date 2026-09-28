@@ -321,3 +321,13 @@ two for K3–K4.
   (charts decided as hand-drawn SVG in PHP; SortableJS vendored for the board and the backlog), `maludb-os.json`
   with eleven approval categories. **Awaiting the checkpoint: the owner approves the schema, the tool surface,
   the manifest and the slice specs together before any PHP.**
+- **2026-09-28, later** — **Checkpoint approved; Phase 2 begun.** Kernel side done: application **50** (`app_key projects`,
+  catalog `projects`, url `http://projects.subello.com`, `sso_path /sso`, `sso_logout_path /sso/logout`, `scope_kind none`,
+  no directory writes), grants (member 1 admin; HR, Audit, Accounting, Front Office and IT at write — the role keys
+  follow Phase 4's `application_roles_refresh`), the application token minted into `config/.env`; the database roles'
+  passwords set; `config/.env` from the tenant's keys; the Apache vhost `projects.subello.com` (+ loopback :8181)
+  enabled; the timer units installed; the Python venv built. **Phase 2 built and proven the same day**
+  (`docs/build-specs/sso-shell.md`, "Built and proven"): a person opens Projects from the launcher and lands signed in
+  on the dashboard; the mirror fills and refreshes every minute; the ingest ships; the bar answers the kernel's
+  sentence before an expert exists; every refusal in the proof list refuses. Next: Phase 3, slice 1 (projects and
+  issues, the exemplar).

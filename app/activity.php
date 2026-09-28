@@ -59,7 +59,7 @@ function log_screen_view(PDO $pdo, string $screen): void
 
 /**
  * Under a run token every row of the run carries the run's own request id (the join to the
- * kernel's prompt ledger). HR cannot read the kernel's database: it asks the run-facts call once
+ * kernel's prompt ledger). Projects cannot read the kernel's database: it asks the run-facts call once
  * per request (agents.md, A7 b) — never a header the agent could set.
  */
 function agent_run_request_id(): ?string

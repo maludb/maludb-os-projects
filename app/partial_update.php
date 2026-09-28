@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 /** endpoint → [table, the form's id field, read view, the view's id column] */
 const PARTIAL_UPDATE_TARGETS = [
-    '/departments/save.php'        => ['departments', 'department', 'mcp_departments', 'department_id'],
-    '/reviews/save.php'            => ['reviews', 'review', 'mcp_reviews', 'review_id'],
-    '/people/employment/save.php'  => ['employment_profiles', 'person', 'mcp_employment_profiles', 'member_id'],
+    '/projects/save.php' => ['projects', 'project', 'mcp_projects', 'project_id'],
+    '/issues/save.php'   => ['issues', 'issue', 'mcp_issues', 'issue_id'],
+    '/epics/save.php'    => ['epics', 'epic', 'mcp_epics', 'epic_id'],
 ];
 
 function partial_update_prefill(PDO $pdo): void
@@ -34,7 +34,7 @@ function partial_update_prefill(PDO $pdo): void
     if ($visible->fetchColumn() === false) {
         return;
     }
-    $pk = $table === 'employment_profiles' ? 'member_id' : 'id';
+    $pk = 'id';
     $st = $pdo->prepare("SELECT * FROM {$table} WHERE {$pk} = :id");
     $st->execute(['id' => $id]);
     $row = $st->fetch(PDO::FETCH_ASSOC);

@@ -138,3 +138,19 @@ html.app-header-dark .nxl-navigation .m-header .logo-lg,
     .nxl-navigation.mob-navigation-active { z-index: 1040; }
     .nxl-navigation .navbar-content { padding-bottom: 100px; }
 }
+
+/* Projects: the hand-drawn SVG charts (app/views/shared/chart.php). The only colours they carry. */
+.chart { max-width: 100%; height: auto; display: block; }
+.chart-line { stroke: var(--bs-primary, #3454d1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart-line.chart-series-2 { stroke: var(--bs-secondary, #6c757d); }
+.chart-line.chart-series-3 { stroke: var(--bs-success, #17c666); }
+.chart-line.chart-dashed { stroke-dasharray: 4 3; }
+.chart-bar { fill: var(--bs-primary, #3454d1); }
+.chart-bar.chart-series-2 { fill: rgba(52, 84, 209, 0.35); }
+.chart-area { fill: rgba(52, 84, 209, 0.2); stroke: var(--bs-primary, #3454d1); stroke-width: 1; }
+.chart-area.chart-series-2 { fill: rgba(23, 198, 102, 0.25); stroke: var(--bs-success, #17c666); }
+.chart-area.chart-series-3 { fill: rgba(108, 117, 125, 0.25); stroke: var(--bs-secondary, #6c757d); }
+.chart-guide { stroke: rgba(0, 0, 0, 0.15); stroke-width: 1; }
+.chart-label { font-size: 10px; fill: var(--bs-secondary, #6c757d); font-family: inherit; }
+/* A board's columns scroll sideways inside their panel, scrollbar visible (design-system rule). */
+#board { overflow-x: auto; overflow-y: visible; scrollbar-width: thin; }

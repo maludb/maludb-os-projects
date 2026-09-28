@@ -15,7 +15,7 @@
         <div class="input-group">
             <span class="input-group-text bg-transparent border-0"><i class="feather-message-circle text-muted"></i></span>
             <input type="text" id="assistant-input" name="message" class="form-control border-0"
-                   placeholder="Ask HR, or tell it what to do…  (Ctrl/⌘+K)" autocomplete="off" maxlength="2000" />
+                   placeholder="Ask Projects, or tell it what to do…  (Ctrl/⌘+K)" autocomplete="off" maxlength="2000" />
             <button type="submit" id="assistant-send-btn" class="btn btn-primary">
                 <i class="feather-send"></i>
             </button>

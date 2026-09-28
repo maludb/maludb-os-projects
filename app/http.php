@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * HTTP and rendering helpers — the kernel's contracts (php-patterns), kept name for name so the
- * kernel's actions server and approval replay read HR's handlers exactly as they read its own:
+ * kernel's actions server and approval replay read Projects' handlers exactly as they read its own:
  * emit_action_status() + json_mode_finish() answer JSON; a browser gets HTML; HTMX gets a partial.
  */
 

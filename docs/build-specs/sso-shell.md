@@ -55,17 +55,33 @@ copied and renamed — the differences are listed under "Projects is not HR".
 ## Activity log events
 - `member.sign_on`, `member.sign_on.refused`, `member.sign_out`, `member.sign_out.refused`, `directory.sync`, `screen.view` (home, activity), `assistant.ask` (the utterance's length and the run id, never the text).
 
-## Proof before Phase 3
-- [ ] A token minted by the kernel's own `sso_launch_url()` for member 1 on the Projects application opens a session once (302 → `/`, dashboard 200); the same token again → 403 (`replay`); a token for `app_key = 'hr'` → 403 (`token`).
-- [ ] An action token for an id with no mirror row → 401 and NO row created; a run token without the relay → 401; with a relay but a run the kernel does not vouch for → 401.
-- [ ] `bin/directory_sync.php --full` fills the mirror; the incremental run applies 0 and advances the cursor; the timer runs every minute; a suspended member arrives `inactive` and their sessions end in the same pass.
-- [ ] `/sso/logout` with the kernel's notice → 204 and the next request → 302 to the launcher; an invalid notice → 204 and `member.sign_out.refused`.
-- [ ] The ingest ships rows tagged `projects` and advances the checkpoint; `/api/v1/health` answers on both ports with `ingest_lag` and the sync state.
-- [ ] The command bar renders the kernel's 404 sentence before the expert exists.
-- [ ] `html/attachments/get.php` refuses (404) an id the member may not see, and never a path.
-- [ ] SortableJS loads (`Sortable` defined after `htmx:load`), and with JavaScript disabled the dashboard renders whole.
-- [ ] Headless Chromium at 375 × 740 and 1280 × 800: `scrollWidth` = viewport, the bar at the bottom edge, HTMX navigation to `/activity` pushes URL and title.
+## Proof before Phase 3 — **run 2026-09-28, all held**
+- [x] A token minted by the kernel's own `sso_launch_url()` for member 1 on the Projects application opens a session once (302 → `/`, dashboard 200); the same token again → 403 (`replay`); a token for `app_key = 'hr'` → 403 (`token`).
+- [x] An action token for an id with no mirror row → 401 and NO row created; a run token without the relay → 401; with a relay but a run the kernel does not vouch for → 401.
+- [x] `bin/directory_sync.php --full` fills the mirror; the incremental run applies 0 and advances the cursor; the timer runs every minute; a suspended member arrives `inactive` and their sessions end in the same pass.
+- [x] `/sso/logout` with the kernel's notice → 204 and the next request → 302 to the launcher; an invalid notice → 204 and `member.sign_out.refused`.
+- [x] The ingest ships rows tagged `projects` and advances the checkpoint; `/api/v1/health` answers on both ports with `ingest_lag` and the sync state.
+- [x] The command bar renders the kernel's 404 sentence before the expert exists.
+- [x] `html/attachments/get.php` refuses (404) an id the member may not see, and never a path.
+- [x] SortableJS loads (`Sortable` defined after `htmx:load`), and with JavaScript disabled the dashboard renders whole.
+- [x] Headless Chromium at 375 × 740 and 1280 × 800: `scrollWidth` = viewport, the bar at the bottom edge, HTMX navigation to `/activity` pushes URL and title.
 - Kernel side: catalog `projects` (db/158) + the application row with `sso_path`, `sso_logout_path`, `scope_kind none`, url `http://projects.subello.com`; grants: member 1 admin, each standing department Member; the application token in `config/.env`.
+
+## Built and proven (2026-09-28)
+The kit from HR adapted (the HR gates removed, Projects' gates added: `require_admin`, `require_can_see_project`,
+`require_can_work`, `require_right_in`); `config/.env` from the tenant's keys with fresh role passwords; the vhost
+`projects.subello.com` + loopback :8181; the timers `projects-directory-sync` and `projects-activity-ingest` active;
+the venv; in the kernel application 50 with its grants and token. The proofs above as run: hand-off 302 → `/` 200 with
+the three cards, replay 403 (`replay`), an HR token 403 (`token`); an action token for an unknown id 401 and no row;
+an unadmitted agent's relayed run token for a run the kernel does not vouch for 401 and no admission, the same
+without the relay 401; `--full` applied 21 members, 12 departments, 19 memberships, 17 holdings, the incremental run
+0 and a new cursor; the kernel's notice 204 and the old session then 302 to the launcher, an invalid notice 204 with
+`member.sign_out.refused`; the ingest shipped 4/4 and the checkpoint moved, health `ingest_lag 0` on both names; the
+bar's 404 sentence; `get.php` 404 for a stranger's id and for a path; the dashboard whole without JavaScript (curl);
+headless Chromium at 1280×800 and 375×740: `scrollWidth` = viewport, `htmx` and `Sortable` defined, the bar at the
+bottom edge, HTMX navigation to `/activity` pushing URL and title, no console errors. Not re-proven here: a
+suspended member arriving `inactive` with their sessions ended — HR's `directory_sync.php` verbatim, proven there.
+One fix on the way: `mcp_activity_log` granted to `projects_rw` (db/011) for the `/activity` screen.
 
 ## Open Questions
 - The theme's `logo-full.png`: Projects needs its own mark, as HR does (the owner's artwork).

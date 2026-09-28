@@ -4,6 +4,7 @@
  * Data: title, content, activeNav?, screen?, entity?, recordId?
  * Load-bearing: nxl-* classes, #mobile-collapse, #menu-mini-button, asset order,
  * theme-customizer-init.min.js last. #page-content is the HTMX swap target.
+ * Projects: SortableJS after htmx (the owner's answer 2); bindSortables() on load and after every swap.
  */
 $title     = $title     ?? app_name();
 $content   = $content   ?? '';
@@ -12,37 +13,29 @@ $screen    = $screen    ?? '';
 $entity    = $entity    ?? '';
 $recordId  = $recordId  ?? '';
 $m         = current_member();
-$staff     = hr_is_staff();
-$roleBadge = match ((string) ($m['business_role'] ?? 'user')) {
-    'super_admin' => 'Super-admin', 'dept_admin' => 'Dept-admin', default => ($staff ? 'HR staff' : ''),
-};
-if ($staff && ($m['business_role'] ?? '') !== 'super_admin') { $roleBadge = 'HR staff'; }
+$admin     = is_projects_admin();
+$roleBadge = '';
+if ($m !== null) {
+    $st = db()->prepare('SELECT projects_roles FROM mcp_members WHERE member_id = :id');
+    $st->execute(['id' => (int) $m['id']]);
+    $roles = (string) ($st->fetchColumn() ?: '');
+    $first = trim(explode(',', trim($roles, '{}'))[0] ?? '', '"');
+    $roleBadge = $first !== '' ? $first : match ((string) ($m['business_role'] ?? 'user')) {
+        'super_admin' => 'Super-admin', 'dept_admin' => 'Dept-admin', default => ($admin ? 'Projects Admin' : ''),
+    };
+}
 $initials  = strtoupper(mb_substr((string) ($m['display_name'] ?? '?'), 0, 1));
 
 $groups = [
     'Home' => [
-        ['dashboard', '/', 'feather-home', 'Dashboard', true],
+        ['home', '/', 'feather-home', 'Dashboard', true],
+        ['my-work', '/my-work', 'feather-check-square', 'My work', true],
     ],
-    'People' => [
-        ['people-list', '/people/', 'feather-users', 'People', true],
-        ['departments-list', '/departments/', 'feather-grid', 'Departments', true],
-    ],
-    'Leave' => [
-        ['leave-requests', '/leave/', 'feather-sun', 'Requests', true],
-        ['leave-calendar', '/leave/calendar', 'feather-calendar', 'Calendar', true],
-        ['leave-balances', '/leave/balances/', 'feather-pie-chart', 'Balances', true],
-    ],
-    'Pay' => [
-        ['pay-runs', '/payruns/', 'feather-dollar-sign', 'Pay runs', can_run_pay()],
-        ['payslip', '/payruns/mine', 'feather-file-text', 'My payslips', true],
-    ],
-    'Reviews' => [
-        ['reviews-list', '/reviews/', 'feather-star', 'Reviews', true],
+    'Projects' => [
+        ['projects-list', '/projects/', 'feather-trello', 'Projects', true],
     ],
     'Settings' => [
-        ['settings', '/settings/', 'feather-settings', 'Settings', $staff],
-        ['leave-types', '/settings/leave-types/', 'feather-list', 'Leave types', $staff],
-        ['holidays', '/settings/holidays/', 'feather-flag', 'Holidays', $staff],
+        ['settings', '/settings/', 'feather-settings', 'Settings', $admin],
         ['tokens', '/settings/tokens/', 'feather-key', 'Tokens', true],
         ['activity', '/activity', 'feather-activity', 'Activity', true],
     ],
@@ -138,8 +131,8 @@ $navlink = function (string $id, string $url, string $icon, string $label) use (
                                 </div>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <a href="/people/<?= (int) ($m['id'] ?? 0) ?>" class="dropdown-item" hx-get="/people/<?= (int) ($m['id'] ?? 0) ?>" hx-target="#page-content" hx-push-url="/people/<?= (int) ($m['id'] ?? 0) ?>" id="header-me-link">
-                                <i class="feather-user"></i><span>My record</span>
+                            <a href="/my-work" class="dropdown-item" hx-get="/my-work" hx-target="#page-content" hx-push-url="/my-work" id="header-me-link">
+                                <i class="feather-check-square"></i><span>My work</span>
                             </a>
                             <a href="<?= e(launcher_url()) ?>" class="dropdown-item" id="header-launcher-item">
                                 <i class="feather-grid"></i><span>All applications</span>
@@ -184,7 +177,34 @@ $navlink = function (string $id, string $url, string $icon, string $label) use (
     <script src="/assets/vendors/js/select2.min.js"></script>
     <script src="/assets/vendors/js/select2-active.min.js"></script>
     <script src="/assets/vendors/js/htmx.min.js"></script>
+    <script src="/assets/vendors/sortablejs/Sortable.min.js"></script>
     <script>
+        // Drag-and-drop is an enhancement over the buttons (docs/build-specs/sso-shell.md): a list or a
+        // column with data-sortable posts the same action the buttons post — the moved item's data-id,
+        // its neighbours as after/before, the destination's data-sortable-value as value.
+        function bindSortables() {
+            if (!window.Sortable) return;
+            document.querySelectorAll('[data-sortable]').forEach(function (el) {
+                if (el.__sortable) return;
+                el.__sortable = Sortable.create(el, {
+                    group: el.dataset.sortableGroup || undefined,
+                    handle: el.dataset.sortableHandle || undefined,
+                    animation: 120,
+                    onEnd: function (evt) {
+                        var to = evt.to, item = evt.item;
+                        var url = to.dataset.sortableAction || el.dataset.sortableAction;
+                        if (!url) return;
+                        var prev = item.previousElementSibling, next = item.nextElementSibling;
+                        var values = { id: item.dataset.id || '' };
+                        if (prev && prev.dataset.id) values.after = prev.dataset.id;
+                        if (next && next.dataset.id) values.before = next.dataset.id;
+                        if (to.dataset.sortableValue !== undefined) values.value = to.dataset.sortableValue;
+                        htmx.ajax('POST', url, { target: to.dataset.sortableTarget || el.dataset.sortableTarget || '#page-content', swap: 'innerHTML', values: values });
+                    }
+                });
+            });
+        }
+        document.addEventListener('DOMContentLoaded', bindSortables);
         document.body.addEventListener('htmx:configRequest', function (e) {
             if (e.detail.verb && e.detail.verb.toLowerCase() !== 'get') {
                 var meta = document.querySelector('#csrf-token-meta');
@@ -207,6 +227,7 @@ $navlink = function (string $id, string $url, string $icon, string $label) use (
             }
             var nav = document.querySelector('nav.nxl-navigation');
             if (nav && nav.classList.contains('mob-navigation-active')) { nav.classList.remove('mob-navigation-active'); var ov = document.querySelector('.nxl-menu-overlay'); if (ov) ov.remove(); }
+            bindSortables();
         });
         // A refused request (4xx) is retargeted to #flash by the server; a network failure says so.
         document.body.addEventListener('htmx:responseError', function (e) {

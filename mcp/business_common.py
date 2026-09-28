@@ -1,4 +1,4 @@
-"""Shared pieces for HR's tool modules: annotations, the input base, period parsing."""
+"""Shared pieces for Projects's tool modules: annotations, the input base, period parsing."""
 from __future__ import annotations
 
 import datetime

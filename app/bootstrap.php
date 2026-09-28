@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * HR — application bootstrap. Every web endpoint requires this first.
+ * Projects — application bootstrap. Every web endpoint requires this first.
  *   - loads config/.env into the environment
  *   - loads the helpers (db, http, activity, auth, directory, mail)
  *   - starts a hardened session, or acts for one request under the kernel's action token
@@ -12,7 +12,7 @@ declare(strict_types=1);
  * Endpoints under html/ reach this via: require_once dirname(__DIR__, N) . '/app/bootstrap.php';
  */
 
-define('APP_ROOT', dirname(__DIR__));                 // /srv/apps/hr
+define('APP_ROOT', dirname(__DIR__));                 // /srv/apps/projects
 define('APP_START', microtime(true));
 
 (function (): void {
@@ -56,13 +56,13 @@ function app_url(string $path = ''): string
 
 function app_name(): string
 {
-    return (string) env('APP_NAME', 'HR');
+    return (string) env('APP_NAME', 'Projects');
 }
 
 /** This application's catalog key — the audience of every token it accepts. */
 function app_key(): string
 {
-    return (string) env('APP_KEY', 'hr');
+    return (string) env('APP_KEY', 'projects');
 }
 
 function launcher_url(string $query = ''): string
@@ -108,7 +108,7 @@ if (PHP_SAPI !== 'cli') {
     ]);
     ini_set('session.use_strict_mode', '1');
     ini_set('session.use_only_cookies', '1');
-    session_name('HRSID');
+    session_name('PROJSID');
     session_start();
 
     if (empty($_SESSION['csrf_token'])) {

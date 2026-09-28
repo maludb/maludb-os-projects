@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** HR's own sign-out: this session only, then back to the launcher. POST + CSRF, a full navigation. */
+/** Projects' own sign-out: this session only, then back to the launcher. POST + CSRF, a full navigation. */
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
 require_post();

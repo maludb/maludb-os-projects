@@ -67,5 +67,6 @@ $refresh = 'hx-get="/issues/view.php?key=' . e($key) . '&region=fields" hx-trigg
                 <button type="submit" class="btn btn-sm btn-light-danger" id="issue-delete-btn"><i class="feather-trash-2 me-1"></i>Delete</button></form>
             <?php endif; ?>
         </div>
+        <?= view('issues/partials/move-project.php', ['issue' => $i, 'project' => $project, 'canAdmin' => $canAdmin]) ?>
     </div>
 </div>

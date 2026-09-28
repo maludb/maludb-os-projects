@@ -63,7 +63,7 @@ with this slice's handlers stubbed; this slice fills them and adds the screens.
 
 ## Handlers
 - `epics/save.php` (`epic_create` / `epic_update`): `require_right_in('epic.write', $projectId)`; log `epic.create` (`after`: name, target_date) / `epic.update` (`before`/`after`); `saved_go("/epics/$id")`; `HX-Trigger: epicChanged`.
-- `epics/status.php` (`epic_update` with `status`): `epic.write`; log `epic.status` (`before`/`after`: status).
+- `epics/status.php` (`epic_update` with `status`): `epic.write`; log `epic.close` or `epic.reopen` (`before`/`after`: status; the manifest's name, 2026-09-28).
 - `labels/save.php` (`label_save`), `labels/archive.php`: `require_right_in('project.admin')`; log `label.save` / `label.archive`.
 - `components/save.php` (`component_save`), `components/archive.php`: `project.admin`; log `component.save` / `component.archive`.
 - `issues/link.php`, `unlink.php` (slice 1's, now real): `require_can_work` on both; the cycle sentence.
@@ -74,7 +74,7 @@ with this slice's handlers stubbed; this slice fills them and adds the screens.
 - Actions: `epic_create`, `epic_update`, `label_save`, `component_save`, `issue_move_project` (add to the manifest: `project.admin`, undo —, confirm ✔).
 
 ## Activity log events
-- `screen.view`, `epic.create`, `epic.update`, `epic.status`, `label.save`, `label.archive`, `component.save`, `component.archive`, `issue.link`, `issue.unlink`, `issue.move_project`.
+- `screen.view`, `epic.create`, `epic.update`, `epic.close`, `epic.reopen`, `label.save`, `label.archive`, `component.save`, `component.archive`, `issue.link`, `issue.unlink`, `issue.move_project`.
 
 ## Proof
 - Epic progress equals the sum of its top-level issues' points; marking done with open issues asks; a cancelled epic is struck on its issues.
@@ -83,6 +83,24 @@ with this slice's handlers stubbed; this slice fills them and adds the screens.
 - A move between projects gives `NEW-1`, keeps `OLD-7` as an alias that redirects, moves the subtasks, clears the source's sprint/epic/labels, lands on the target's initial status.
 - Labels: a new colour on save; an archived label stays on its issues and leaves the pickers.
 - 375 px on every screen.
+
+## Built and proven (2026-09-28)
+By a fork on the exemplar: `app/features/epics/{queries,present}.php` (epics, labels, components, `move_issue_to_project()`,
+`projects_i_administer()`); the Epics tab as cards with a status filter (`html/projects/epics.php`, region `#epics-list-results`);
+`html/epics/{index,view,form,save,close,status}.php` (`status.php` an alias of `close.php`); labels and components at
+`html/labels/*`, `html/components/*` with aliases at the registry's `html/projects/{labels,components}/*` paths, edited on the
+project's settings `?section=labels` (region `#project-labels-components`, refreshed by `labelsChanged`); the move to another
+project (`html/issues/move-project.php`, alias `move.php`) offered on a parent issue only when another administered project
+exists, never on a subtask. Links and subtasks already met the spec in slice 1. Proven live as member 1 through a hand-off:
+the empty state, SMOKE Epic created, duplicate name and off-list colour refused (HTMX 422 re-renders the form with
+HX-Retarget), an issue's points counted into the epic's progress, done with the open-issue confirm, reopened, cancelled;
+labels and a component saved, set on an issue, archived (the issue keeps them, the pickers lose them); SMK1-12 with its
+subtask moved to SMK4 as SMK4-2/SMK4-3 with the old keys answering 301, epic, labels, component and sprint cleared and the
+status mapped to the target's first; self-move, subtask and unknown project refused; every activity row named above; headless
+Chromium at 1280×800 and 375×740 with no sideways scroll and no console errors. The close logs `epic.close` / `epic.reopen`
+(the manifest's name). The "no right → no button" case is proven by code path only — the mirror holds no non-admin member yet.
+SMOKE data left: epic 1 in SMK1 (SMK1-14, SMK1-15), labels `smoke-red` (live) and `smoke-blue` (archived), component
+"SMOKE part" (archived), project SMK4 with SMK4-1..3, aliases SMK1-10/12/13.
 
 ## Open Questions
 - (none)

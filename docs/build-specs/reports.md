@@ -41,5 +41,20 @@ Charts are hand-drawn SVG (`app/views/shared/chart.php`, decided in `sso-shell.m
 - Every SVG has a `<title>`, axes labelled with units (points, days), and reads at 375 px (the chart scales to the column; the table scrolls inside its card).
 - The `?report=` pills push the URL; a reload lands on the same report.
 
+## Built and proven (2026-09-28)
+By a fork on the exemplar: `app/features/reports/{queries,present}.php` (six readers over the db/010 functions and the two
+`mcp_*` views, `report_sprint_options()`; the window bound as a cast because PDO's integer bind will not coerce inside
+`current_date - :d`); `html/projects/reports.php` (an unknown `report=` renders velocity; `screen.view` carries the report;
+Pattern B on `#report-body` with `Vary: HX-Request`; `?format=csv` on the flow report answers `text/csv`, logged
+`report.export`); `app/views/reports/{body,report-velocity,report-burndown,report-cycle,report-flow,report-scope,report-hygiene}.php`
+with the pill strip pushing the URL. Every chart has its table beside it and its title as `aria-label`; the leads read as
+sentences. Proven live as member 1 over a SMOKE fixture (SMK5: three closed sprints, one active with five scope events, one
+future, eight issues, one blocking link): all six reports 200, one SVG and a table on velocity, burndown, cycle and flow,
+scope with its five events and totals, hygiene grouping the four reasons; the CSV's header and 31 day rows; the six JSON
+shapes; the HTMX branch alone; headless Chromium at 1280×800 and 375×740 on four reports with no sideways scroll and no
+console errors, the Scope pill swapping the region alone. Two notes: the three-sprint average is stated in velocity's lead,
+not drawn; p85 is a second bar, not a whisker. `view()` reserves `$data`, so a report's rows travel as `rd`. SMOKE data
+left: project SMK5 with its sprints, issues and scope events.
+
 ## Open Questions
 - (none)

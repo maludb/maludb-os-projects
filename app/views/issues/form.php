@@ -4,15 +4,15 @@ $back = $isNew ? ($parent !== null ? '/issues/' . $parent['key'] : '/projects/' 
 $nav = static fn (string $url): string => 'href="' . e($url) . '" hx-get="' . e($url) . '" hx-target="#page-content" hx-swap="innerHTML" hx-push-url="' . e($url) . '"';
 $field = static fn (string $name, string $label, string $input, string $help = ''): string =>
     '<div class="row mb-3" id="issue-form-field-' . $name . '-row"><label for="issue-form-field-' . $name . '" class="col-lg-3 col-form-label fs-12 text-muted">' . e($label) . '</label><div class="col-lg-9">' . $input . ($help !== '' ? '<div class="form-text">' . e($help) . '</div>' : '') . '</div></div>';
+// A record is chosen through the record picker (app/picker.php): the label points at the opener, the hidden input keeps the old name and id.
+$pfield = static fn (string $name, string $label, string $input): string =>
+    '<div class="row mb-3" id="issue-form-field-' . $name . '-row"><label for="issue-form-field-' . $name . '-open" id="issue-form-field-' . $name . '-label" class="col-lg-3 col-form-label fs-12 text-muted">' . e($label) . '</label><div class="col-lg-9">' . $input . '</div></div>';
 $select = static function (string $name, array $options, $current, ?string $blank = null, string $extra = ''): string {
     $h = '<select name="' . $name . '" id="issue-form-field-' . str_replace('_', '-', $name) . '" class="form-select" ' . $extra . '>';
     if ($blank !== null) { $h .= '<option value="">' . e($blank) . '</option>'; }
     foreach ($options as $v => $l) { $h .= '<option value="' . e((string) $v) . '"' . ((string) $current === (string) $v ? ' selected' : '') . '>' . e($l) . '</option>'; }
     return $h . '</select>';
 };
-$assignees = [];
-foreach ($members as $m) { if (in_array((int) $m['member_id'], $team, true)) { $assignees[(int) $m['member_id']] = $m['display_name'] . ($m['member_kind'] === 'agent' ? ' (agent)' : '') . ' · team'; } }
-foreach ($members as $m) { if (!in_array((int) $m['member_id'], $team, true)) { $assignees[(int) $m['member_id']] = $m['display_name'] . ($m['member_kind'] === 'agent' ? ' (agent)' : ''); } }
 $sprints = []; foreach ($options['sprints'] as $s) { $sprints[(int) $s['sprint_id']] = $s['name'] . ($s['state'] === 'active' ? ' (active)' : ''); }
 $epics = []; foreach ($options['epics'] as $ep) { $epics[(int) $ep['epic_id']] = $ep['name']; }
 $components = []; foreach ($options['components'] as $c) { $components[(int) $c['component_id']] = $c['name']; }
@@ -52,7 +52,9 @@ $points = ['' => 'none']; foreach ($settings['point_scale'] as $p) { $points[(st
                 <?php else: ?><?= $field('type', 'Type', '<span class="form-control-plaintext">Subtask of ' . e($parent['key'] ?? '') . '</span>') ?><?php endif; ?>
                 <?= $field('summary', 'Summary', '<input type="text" name="summary" id="issue-form-field-summary" class="form-control" value="' . e($r['summary'] ?? '') . '" maxlength="255" required>') ?>
                 <?= $field('description', 'Description', '<textarea name="description" id="issue-form-field-description" class="form-control" rows="8">' . e($r['description'] ?? '') . '</textarea>', 'Markdown: paragraphs, **bold**, *italic*, `code`, lists, links, and issue keys become links.') ?>
-                <?= $field('assignee', 'Assignee', $select('assignee', $assignees, $r['assignee_member_id'], 'Unassigned')) ?>
+                <?= $pfield('assignee', 'Assignee', picker_field(['id' => 'issue-form-field-assignee', 'name' => 'assignee', 'source' => 'member', 'value' => $r['assignee_member_id'],
+                    'placeholder' => 'Unassigned', 'title' => 'Assignee', 'search' => 'Search people…', 'params' => ['project_id' => (int) $project['project_id']],
+                    'labelledby' => 'issue-form-field-assignee-label'])) ?>
                 <?= $field('priority', 'Priority', $select('priority', array_combine(ISSUE_PRIORITIES, array_map('ucfirst', ISSUE_PRIORITIES)), $r['priority'] ?? 'medium', null, 'required')) ?>
                 <?php if (!$isSub): ?>
                 <?= $field('story-points', 'Story points', $select('story_points', $points, $r['story_points'] !== null ? (string) (float) $r['story_points'] : '')) ?>

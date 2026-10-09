@@ -18,7 +18,8 @@ $describe = static function (array $f): string {
             <div class="d-flex d-md-none"><a href="javascript:void(0)" class="page-header-right-close-toggle"><i class="feather-arrow-left me-2"></i><span>Back</span></a></div>
             <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
                 <form id="filters-list-filters" method="get" action="/filters" hx-get="/filters" hx-target="#page-content" hx-push-url="true" hx-trigger="change">
-                    <select name="project" id="filters-list-project" class="form-select" aria-label="Project"><option value="">Every project</option><?php foreach ($projects as $p): ?><option value="<?= (int) $p['project_id'] ?>" <?= $projectId === (int) $p['project_id'] ? 'selected' : '' ?>><?= e($p['key']) ?> · <?= e($p['name']) ?></option><?php endforeach; ?></select>
+                    <div style="min-width:14rem"><?= picker_field(['id' => 'filters-list-project', 'name' => 'project', 'source' => 'project', 'value' => $projectId ?: null,
+                        'placeholder' => 'Every project', 'title' => 'Project', 'search' => 'Search projects…']) ?></div>
                 </form>
                 <a href="/filters/new" id="filters-list-new-btn" class="btn btn-primary" hx-get="/filters/new" hx-target="#page-content" hx-push-url="/filters/new"><i class="feather-plus me-2"></i><span>New filter</span></a>
             </div>

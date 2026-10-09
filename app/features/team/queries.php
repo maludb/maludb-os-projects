@@ -29,6 +29,32 @@ function team_candidates(PDO $pdo, int $projectId): array
     return $st->fetchAll();
 }
 
+/**
+ * team_candidates() matching a search, one page — the record picker's source for "Add to the team" (app/pickers.php).
+ * @return array{rows: array, total: int, page: int, page_size: int, pages: int}
+ */
+function find_team_candidates(PDO $pdo, int $projectId, string $q, int $page = 1, int $per = 25): array
+{
+    $where = "status = 'active' AND member_id NOT IN (SELECT member_id FROM mcp_project_team WHERE project_id = :p AND removed_at IS NULL)";
+    $args = ['p' => $projectId];
+    if ($q !== '') {
+        $where .= ' AND (display_name ILIKE :q OR job_title ILIKE :q OR email ILIKE :q)';
+        $args['q'] = '%' . $q . '%';
+    }
+    $count = $pdo->prepare("SELECT count(*) FROM mcp_members WHERE {$where}");
+    $count->execute($args);
+    $total = (int) $count->fetchColumn();
+    $st = $pdo->prepare("SELECT member_id, display_name, member_kind, job_title, is_external FROM mcp_members WHERE {$where}
+                          ORDER BY member_kind = 'agent', display_name, member_id LIMIT :lim OFFSET :off");
+    foreach ($args as $k => $v) {
+        $st->bindValue($k, $v);
+    }
+    $st->bindValue('lim', $per, PDO::PARAM_INT);
+    $st->bindValue('off', max(0, $page - 1) * $per, PDO::PARAM_INT);
+    $st->execute();
+    return ['rows' => $st->fetchAll(), 'total' => $total, 'page' => $page, 'page_size' => $per, 'pages' => max(1, (int) ceil($total / $per))];
+}
+
 /** Add (or re-add, or re-role) a member. A lead demotes the previous lead and becomes the project's lead. Returns the row after. */
 function add_team_member(PDO $pdo, int $projectId, int $memberId, string $role, int $actorId): array
 {

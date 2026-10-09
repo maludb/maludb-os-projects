@@ -20,13 +20,14 @@ $refresh = 'hx-get="/issues/view.php?key=' . e($key) . '&region=fields" hx-trigg
         <dl class="row mb-0 fs-12" id="issue-fields-list">
             <dt class="col-5 text-muted">Type</dt><dd class="col-7"><i class="<?= e(issue_type_icon((string) $i['type'])) ?> me-1"></i><?= e(ucfirst((string) $i['type'])) ?></dd>
             <dt class="col-5 text-muted">Priority</dt><dd class="col-7"><span class="text-<?= e($pt) ?> fw-bold"><?= e($pm) ?></span> <?= e($pl) ?></dd>
-            <dt class="col-5 text-muted">Assignee</dt><dd class="col-7">
+            <dt class="col-5 text-muted" id="issue-field-assignee-label">Assignee</dt><dd class="col-7">
                 <?php if ($canWork): ?>
                 <form <?= $post('/issues/assign.php') ?>><?= csrf_field() ?><input type="hidden" name="issue" value="<?= $id ?>">
-                    <select name="assignee" id="issue-field-assignee" class="form-select form-select-sm" hx-post="/issues/assign.php" hx-trigger="change" hx-include="closest form" hx-swap="none" aria-label="Assignee">
-                        <option value="">Unassigned</option>
-                        <?php foreach ($members as $m): ?><option value="<?= (int) $m['member_id'] ?>" <?= (int) ($i['assignee_member_id'] ?? 0) === (int) $m['member_id'] ? 'selected' : '' ?>><?= e($m['display_name']) ?><?= $m['member_kind'] === 'agent' ? ' (agent)' : '' ?></option><?php endforeach; ?>
-                    </select></form>
+                    <div class="record-picker-sm record-picker-narrow"><?= picker_field(['id' => 'issue-field-assignee', 'name' => 'assignee', 'source' => 'member', 'value' => $i['assignee_member_id'] ?? null,
+                        'label' => ($i['assignee_name'] ?? null) !== null ? $i['assignee_name'] . (($i['assignee_kind'] ?? '') === 'agent' ? ' (agent)' : '') : null,
+                        'placeholder' => 'Unassigned', 'title' => 'Assignee', 'search' => 'Search people…', 'params' => ['project_id' => (int) $i['project_id']],
+                        'labelledby' => 'issue-field-assignee-label',
+                        'extra' => ' hx-post="/issues/assign.php" hx-trigger="change" hx-include="closest form" hx-swap="none"']) ?></div></form>
                 <?php else: ?><?= e($i['assignee_name'] ?? 'Unassigned') ?><?= ($i['assignee_kind'] ?? '') === 'agent' ? ' <span class="badge bg-soft-info text-info">agent</span>' : '' ?><?php endif; ?>
             </dd>
             <dt class="col-5 text-muted">Reporter</dt><dd class="col-7"><?= e($i['reporter_name'] ?? '—') ?></dd>

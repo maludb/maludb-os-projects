@@ -13,6 +13,7 @@
 ### Screens
 - **Ids** are kebab-case `{entity}-list`, `{entity}-add`, `{entity}-view`, `{entity}-edit`, plus named screens.
 - **Canonical URLs** need the rewrites in `deploy/apache-projects.conf`: `/{x}/new` → `form.php`, `/{x}/{id}/edit` → `form.php?id=`, `/{x}/{id}` → `view.php?id=`; a project by its key (`/projects/{key}/…` → `…?key=`), an issue by its key (`/issues/{KEY-n}` → `view.php?key=`).
+- **`/pick/?source=&q=&page=`** → `html/pick/index.php` (the directory index; no rewrite): the record picker's rows, a Pattern A fragment and not a screen. `app/pickers.php` names the sources, each with its `gate` and the integer params it forwards (`project_id`); a form's hidden input keeps the select's name, so no action below changes.
 - **Prefill params** become query-string values the GET controller reads.
 - **Every screen partial stamps** `data-screen`, `data-entity`, `data-record-id` on `#page-content`, so "that", "this issue" and "move this to the sprint" resolve against the page the user is on.
 

@@ -71,6 +71,27 @@ function activity_actors(PDO $pdo): array
 {
     return $pdo->query("SELECT DISTINCT actor_member_id AS member_id, actor_name AS display_name FROM mcp_activity_log WHERE actor_member_id IS NOT NULL AND action <> 'screen.view' ORDER BY actor_name LIMIT 200")->fetchAll();
 }
+/**
+ * activity_actors() matching a search, one page — the record picker's source for the trail's "Who" filter (app/pickers.php).
+ * @return array{rows: array, total: int, page: int, page_size: int, pages: int}
+ */
+function find_activity_actors(PDO $pdo, string $q, int $page = 1, int $per = 25): array
+{
+    $where = "actor_member_id IS NOT NULL AND action <> 'screen.view'" . ($q !== '' ? ' AND actor_name ILIKE :q' : '');
+    $args = $q !== '' ? ['q' => '%' . $q . '%'] : [];
+    $count = $pdo->prepare("SELECT count(DISTINCT actor_member_id) FROM mcp_activity_log WHERE {$where}");
+    $count->execute($args);
+    $total = (int) $count->fetchColumn();
+    $st = $pdo->prepare("SELECT DISTINCT actor_member_id AS member_id, actor_name AS display_name, actor_kind AS member_kind FROM mcp_activity_log WHERE {$where}
+                          ORDER BY actor_name, actor_member_id LIMIT :lim OFFSET :off");
+    foreach ($args as $k => $v) {
+        $st->bindValue($k, $v);
+    }
+    $st->bindValue('lim', $per, PDO::PARAM_INT);
+    $st->bindValue('off', max(0, $page - 1) * $per, PDO::PARAM_INT);
+    $st->execute();
+    return ['rows' => $st->fetchAll(), 'total' => $total, 'page' => $page, 'page_size' => $per, 'pages' => max(1, (int) ceil($total / $per))];
+}
 /** Where a row's record lives, for the link. */
 function activity_record_href(array $r): ?string
 {

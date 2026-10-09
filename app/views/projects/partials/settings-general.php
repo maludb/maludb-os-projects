@@ -3,6 +3,9 @@ $p = $project; $r = $record; $key = (string) $p['key']; $id = (int) $p['project_
 $field = static function (string $name, string $label, string $input, string $help = ''): string {
     return '<div class="row mb-3" id="project-form-field-' . $name . '-row"><label for="project-form-field-' . $name . '" class="col-lg-3 col-form-label fs-12 text-muted">' . e($label) . '</label><div class="col-lg-9">' . $input . ($help !== '' ? '<div class="form-text">' . e($help) . '</div>' : '') . '</div></div>';
 };
+// A record is chosen through the record picker (app/picker.php): the label points at the opener, the hidden input keeps the old name and id.
+$pfield = static fn (string $name, string $label, string $input, string $help = ''): string =>
+    '<div class="row mb-3" id="project-form-field-' . $name . '-row"><label for="project-form-field-' . $name . '-open" id="project-form-field-' . $name . '-label" class="col-lg-3 col-form-label fs-12 text-muted">' . e($label) . '</label><div class="col-lg-9">' . $input . ($help !== '' ? '<div class="form-text">' . e($help) . '</div>' : '') . '</div></div>';
 $select = static function (string $name, array $options, $current, ?string $blank = null, bool $disabled = false): string {
     $h = '<select name="' . $name . '" id="project-form-field-' . $name . '" class="form-select"' . ($disabled ? ' disabled' : '') . '>';
     if ($blank !== null) { $h .= '<option value="">' . e($blank) . '</option>'; }
@@ -10,7 +13,6 @@ $select = static function (string $name, array $options, $current, ?string $blan
     return $h . '</select>';
 };
 $deptOptions = []; foreach ($departments as $d) { $deptOptions[(int) $d['department_id']] = $d['name']; }
-$memberOptions = []; foreach ($members as $m) { $memberOptions[(int) $m['member_id']] = $m['display_name'] . ($m['member_kind'] === 'agent' ? ' (agent)' : ($m['job_title'] ? ' · ' . $m['job_title'] : '')); }
 $ro = $archived ? ' readonly' : '';
 ?>
 <div class="row g-3" id="project-settings-general">
@@ -27,7 +29,8 @@ $ro = $archived ? ' readonly' : '';
                     <?= $field('name', 'Name', '<input type="text" name="name" id="project-form-field-name" class="form-control" value="' . e($r['name']) . '" required maxlength="120"' . $ro . '>') ?>
                     <?= $field('description', 'Description', '<textarea name="description" id="project-form-field-description" class="form-control" rows="4"' . $ro . '>' . e($r['description'] ?? '') . '</textarea>', 'Markdown: paragraphs, lists, emphasis, links, issue keys.') ?>
                     <?= $field('department', 'Department', $select('department', $deptOptions, $r['department_id'], 'None', $archived), 'Who owns the project; its administrators administer it.') ?>
-                    <?= $field('lead', 'Lead', $select('lead', $memberOptions, $r['lead_member_id'], 'None', $archived), 'A person or an agent. The lead joins the team as its lead.') ?>
+                    <?= $pfield('lead', 'Lead', picker_field(['id' => 'project-form-field-lead', 'name' => 'lead', 'source' => 'member', 'value' => $r['lead_member_id'] ?? null,
+                        'placeholder' => 'None', 'title' => 'Lead', 'search' => 'Search people…', 'disabled' => $archived, 'labelledby' => 'project-form-field-lead-label']), 'A person or an agent. The lead joins the team as its lead.') ?>
                     <?= $field('board_mode', 'Board', $select('board_mode', ['scrum' => 'Scrum — the active sprint', 'kanban' => 'Kanban — the whole backlog'], $r['board_mode'], null, $archived)) ?>
                     <?= $field('customer', 'Customer', '<input type="text" name="customer" id="project-form-field-customer" class="form-control" value="' . e($r['customer'] ?? '') . '" maxlength="120"' . $ro . '>', 'Free text; the kernel has no CRM.') ?>
                     <hr>

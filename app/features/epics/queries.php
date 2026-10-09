@@ -191,3 +191,28 @@ function projects_i_administer(PDO $pdo, ?int $exceptProjectId = null): array
     $st->execute(['x' => $exceptProjectId ?? 0]);
     return $st->fetchAll();
 }
+
+/**
+ * projects_i_administer() matching a search, one page — the record picker's source for "Move to another project" (app/pickers.php).
+ * @return array{rows: array, total: int, page: int, page_size: int, pages: int}
+ */
+function find_projects_i_administer(PDO $pdo, string $q, ?int $exceptProjectId, int $page = 1, int $per = 25): array
+{
+    $where = "i_administer AND status = 'active' AND project_id <> :x";
+    $args = ['x' => $exceptProjectId ?? 0];
+    if ($q !== '') {
+        $where .= ' AND (key ILIKE :q OR name ILIKE :q)';
+        $args['q'] = '%' . $q . '%';
+    }
+    $count = $pdo->prepare("SELECT count(*) FROM mcp_projects WHERE {$where}");
+    $count->execute($args);
+    $total = (int) $count->fetchColumn();
+    $st = $pdo->prepare("SELECT project_id, key, name FROM mcp_projects WHERE {$where} ORDER BY name, project_id LIMIT :lim OFFSET :off");
+    foreach ($args as $k => $v) {
+        $st->bindValue($k, $v);
+    }
+    $st->bindValue('lim', $per, PDO::PARAM_INT);
+    $st->bindValue('off', max(0, $page - 1) * $per, PDO::PARAM_INT);
+    $st->execute();
+    return ['rows' => $st->fetchAll(), 'total' => $total, 'page' => $page, 'page_size' => $per, 'pages' => max(1, (int) ceil($total / $per))];
+}

@@ -28,8 +28,9 @@ $keys = $isNew ? [] : $filter['filter'];
                     <?php if (isset($errors['name'])): ?><div class="invalid-feedback"><?= e($errors['name']) ?></div><?php endif; ?>
                 </div>
                 <div class="col-12 col-md-6">
-                    <label class="form-label" for="filter-form-field-project">Project</label>
-                    <select class="form-select" id="filter-form-field-project" name="project"><option value="">Any project</option><?php foreach ($projects as $p): ?><option value="<?= (int) $p['project_id'] ?>" <?= (int) ($values['project_id'] ?? 0) === (int) $p['project_id'] ? 'selected' : '' ?>><?= e($p['key']) ?> · <?= e($p['name']) ?></option><?php endforeach; ?></select>
+                    <label class="form-label" for="filter-form-field-project-open" id="filter-form-field-project-label">Project</label>
+                    <?= picker_field(['id' => 'filter-form-field-project', 'name' => 'project', 'source' => 'project', 'value' => ($values['project_id'] ?? 0) ?: null,
+                        'placeholder' => 'Any project', 'title' => 'Project', 'search' => 'Search projects…', 'labelledby' => 'filter-form-field-project-label']) ?>
                     <div class="form-text">A filter kept on one project uses that project's statuses, sprints and epics.</div>
                 </div>
                 <div class="col-12">

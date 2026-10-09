@@ -39,7 +39,7 @@ answers), `docs/projects-mcp-tool-surface.md`, `docs/projects-action-manifest.md
   private project is visible to its team only, whatever the role.
 - Lists of named things are cards (projects, epics); ledgers (issues, sprints, worklogs) are tables; the
   board and the backlog are their own screens, the board scrolling horizontally inside a panel with a
-  visible scrollbar. No modals; every screen works at 375 px; ids per the kebab-case scheme;
+  visible scrollbar. No modals — except the record picker (`app/picker.php`, the one modal in the shell, chooses a member or a project and nothing else; beside `hx-confirm`); every screen works at 375 px; ids per the kebab-case scheme;
   `hx-push-url` always explicit; the kernel's click-around rules (every name a link, every page a way back).
 - Attachments live under `storage/attachments/<project>/<issue>/`, size-capped by `ATTACHMENT_MAX_BYTES`,
   served by a PHP handler through the gate — never from a public path.

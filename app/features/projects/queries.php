@@ -167,6 +167,38 @@ function member_options(PDO $pdo): array
 {
     return $pdo->query("SELECT member_id, display_name, member_kind, job_title FROM mcp_members WHERE status = 'active' ORDER BY member_kind = 'agent', display_name")->fetchAll();
 }
+/**
+ * Active members (humans and agents) matching a search, one page — the record picker's member list (app/pickers.php).
+ * With $teamOfProject the project's team comes first, as the assignee select listed it. Same rows as member_options().
+ * @return array{rows: array, total: int, page: int, page_size: int, pages: int}
+ */
+function find_members(PDO $pdo, string $q, int $page = 1, ?int $teamOfProject = null, int $per = 25): array
+{
+    $args = [];
+    $where = "m.status = 'active'";
+    if ($q !== '') {
+        $where .= ' AND (m.display_name ILIKE :q OR m.job_title ILIKE :q OR m.email ILIKE :q)';
+        $args['q'] = '%' . $q . '%';
+    }
+    $team = '0::int';
+    if ($teamOfProject !== null) {
+        $team = 'CASE WHEN EXISTS (SELECT 1 FROM mcp_project_team t WHERE t.project_id = :tp AND t.member_id = m.member_id AND t.removed_at IS NULL) THEN 1 ELSE 0 END';
+        $args['tp'] = $teamOfProject;
+    }
+    $count = $pdo->prepare("SELECT count(*) FROM mcp_members m WHERE {$where}");
+    $count->execute(array_diff_key($args, ['tp' => 1]));
+    $total = (int) $count->fetchColumn();
+    $st = $pdo->prepare("SELECT m.member_id, m.display_name, m.member_kind, m.job_title, m.is_external, {$team} AS on_team FROM mcp_members m WHERE {$where}
+                          ORDER BY {$team} DESC, m.member_kind = 'agent', m.display_name, m.member_id LIMIT :lim OFFSET :off");
+    foreach ($args as $k => $v) {
+        $st->bindValue($k, $v);
+    }
+    $st->bindValue('lim', $per, PDO::PARAM_INT);
+    $st->bindValue('off', max(0, $page - 1) * $per, PDO::PARAM_INT);
+    $st->execute();
+    return ['rows' => $st->fetchAll(), 'total' => $total, 'page' => $page, 'page_size' => $per, 'pages' => max(1, (int) ceil($total / $per))];
+}
+
 function projects_settings(PDO $pdo): array
 {
     $row = $pdo->query('SELECT * FROM mcp_projects_settings')->fetch();

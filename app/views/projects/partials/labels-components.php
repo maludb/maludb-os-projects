@@ -59,7 +59,9 @@ $post = static fn (string $action, string $extra = ''): string => 'method="post"
                         <?= csrf_field() ?><input type="hidden" name="project" value="<?= $pid ?>">
                         <div class="col-12 col-md-5"><label for="component-form-field-name" class="form-label fs-12 text-muted">New component</label><input type="text" name="name" id="component-form-field-name" class="form-control form-control-sm" required maxlength="60"></div>
                         <div class="col-12 col-md-7"><label for="component-form-field-description" class="form-label fs-12 text-muted">Description</label><input type="text" name="description" id="component-form-field-description" class="form-control form-control-sm" maxlength="240"></div>
-                        <div class="col-9"><label for="component-form-field-default-assignee" class="form-label fs-12 text-muted">Default assignee</label><select name="default_assignee" id="component-form-field-default-assignee" class="form-select form-select-sm"><option value="">None</option><?php foreach ($members as $m): ?><option value="<?= (int) $m['member_id'] ?>"><?= e($m['display_name']) ?><?= $m['member_kind'] === 'agent' ? ' (agent)' : '' ?></option><?php endforeach; ?></select></div>
+                        <div class="col-9"><label for="component-form-field-default-assignee-open" id="component-form-field-default-assignee-label" class="form-label fs-12 text-muted">Default assignee</label>
+                            <?= picker_field(['id' => 'component-form-field-default-assignee', 'name' => 'default_assignee', 'source' => 'member', 'value' => null, 'placeholder' => 'None',
+                                'title' => 'Default assignee', 'search' => 'Search people…', 'params' => ['project_id' => $pid], 'labelledby' => 'component-form-field-default-assignee-label']) ?></div>
                         <div class="col-3"><button type="submit" class="btn btn-sm btn-primary w-100" id="component-form-save-btn"><i class="feather-plus"></i></button></div>
                     </form>
                     <?php endif; ?>

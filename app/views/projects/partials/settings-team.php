@@ -43,11 +43,10 @@ $roles = ['lead' => 'Lead', 'product_owner' => 'Product owner', 'scrum_master' =
                 <div class="card-body">
                     <form method="post" action="/team/save.php" id="team-form" hx-post="/team/save.php" hx-swap="none">
                         <?= csrf_field() ?><input type="hidden" name="project" value="<?= $id ?>">
-                        <div class="mb-3"><label for="team-form-field-member" class="form-label fs-12 text-muted">Member</label>
-                            <select name="member" id="team-form-field-member" class="form-select" data-select2-selector="team-member" required>
-                                <option value="">Choose…</option>
-                                <?php foreach ($candidates as $c): ?><option value="<?= (int) $c['member_id'] ?>"><?= e($c['display_name']) ?><?= $c['member_kind'] === 'agent' ? ' (agent)' : ($c['is_external'] ? ' (external)' : ($c['job_title'] ? ' · ' . e($c['job_title']) : '')) ?></option><?php endforeach; ?>
-                            </select></div>
+                        <div class="mb-3"><label for="team-form-field-member-open" id="team-form-field-member-label" class="form-label fs-12 text-muted">Member</label>
+                            <?= picker_field(['id' => 'team-form-field-member', 'name' => 'member', 'source' => 'team_candidate', 'value' => null, 'required' => true,
+                                'placeholder' => 'Choose a member', 'title' => 'Add to the team', 'search' => 'Search people…', 'params' => ['project_id' => $id],
+                                'labelledby' => 'team-form-field-member-label']) ?></div>
                         <div class="mb-3"><label for="team-form-field-role" class="form-label fs-12 text-muted">Project role</label>
                             <select name="project_role" id="team-form-field-role" class="form-select"><?php foreach ($roles as $v => $l): ?><option value="<?= $v ?>" <?= $v === 'member' ? 'selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select></div>
                         <button type="submit" class="btn btn-primary" id="team-form-save-btn"><i class="feather-user-plus me-2"></i>Add</button>

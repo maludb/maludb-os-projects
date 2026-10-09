@@ -155,7 +155,7 @@ in §6–§7. (Releases, roadmaps and timesheets answer questions nobody in §2 
 
 ## 6. Screens (the frequent questions), in Jira's and Linear's layout, the nxl look
 
-Every screen: the design system's rules — no modals, full-page create/edit, Save/Cancel in the header,
+Every screen: the design system's rules — no modals (the one sanctioned exception beside `hx-confirm` is the record picker, §13, 2026-10-09), full-page create/edit, Save/Cancel in the header,
 375 px with 44 px targets, lists of named things as cards, ledgers as tables, explicit `hx-push-url`,
 kebab ids, and the kernel's click-around rules (every name a link, every page a way back).
 
@@ -356,3 +356,18 @@ two for K3–K4.
   installer and the templates. Open, small: a status added in the workflow form gets its moves after the first save; an active
   member with no capability can join a team; the builder reads the seven templated screen paths as unbuilt; sprints started before
   db/014 keep the old burndown reading for their committed issues. SMOKE data: projects SMK1 (private), SMK4, SMK5, SMK6, SMKA (open).
+- **2026-10-09 — the record picker (the builder plugin's `references/record-picker.md`, decided and built the same day; retrofit on branch
+  `record-picker`).** Every `<select>` whose options are a table of records — members and agents, projects — became the one searchable
+  modal; sprints, statuses, roles, departments and the other short lists stay selects. `app/picker.php` (`picker_field()`; Projects writes
+  its form rows by hand, so there is no `form_picker()`), `app/pickers.php` (the registry), `html/pick/index.php` (`GET /pick/?source=&q=&page=&<params>`),
+  `shared/picker-rows.php`, `assets/js/record-picker.js`, the CSS section and the one `#record-picker` modal after `</main>` in the layout.
+  Projects names no roles, so a source carries a `gate` — `can_see_project()` for a project-scoped people list, `has_right_in('project.admin')`
+  for the team's candidates — and the rows come through the `mcp_*` views, so a picker never lists what the select did not. Sources:
+  `member` (an assignee, a lead, a component's default assignee; with `project_id` the team first, badged), `team_candidate` (Add to the
+  team), `actor` (the trail's Who filter), `project` (a saved filter's project), `project_admin` (Move to another project). The hidden input keeps
+  each select's name and id: no handler, no `hx-include` and no manifest row changed. Left as selects, by decision: the issues list, the board and
+  the backlog's assignee filters (their `Me` and `Unassigned` values are not records), the activity's project filter (its value is the key), and
+  sprints, statuses, roles, departments and the carry-over targets. Proof: `scripts/prove-picker.sh` (80 checks, scratch database `projects_dev`, php -S with
+  `scripts/picker-router.php` = the vhost's rewrites, signed in through the real `/sso` receiver with a token signed by the scratch key) and
+  `scripts/picker-browser.mjs` (23 checks in headless Chromium: keyboard, paging, a save through the picker, 375 px). The Details column's picker
+  drops its search button (the opener opens it) so the name has room.
